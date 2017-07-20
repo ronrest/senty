@@ -14,7 +14,15 @@ import glob
 from support import tokenization, Timer
 from file_support import file2str, list2file, file2list
 
+
+# ==============================================================================
+#                                                         VOCAB_TALLY_FROM_FILES
+# ==============================================================================
 def vocab_tally_from_files(data_dir):
+    """ Given the root directory containing the data. It returns a
+        dictionary-like of the counts of each token in the entire
+        data.
+    """
     ext = "txt"
     datasets = ["train", "test"]
     tally = collections.Counter([])
