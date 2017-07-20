@@ -89,7 +89,11 @@ def file2str(file, encoding="UTF-8"):
     return text
 
 
+# ==============================================================================
+#                                                                      LIST2FILE
+# ==============================================================================
 def list2file(a, file, encoding="UTF-8", verbose=True):
+    """ Given a list, it saves the contents of each element in a new line """
     if verbose:
         print("Writing to file: ", file, end="")
         
