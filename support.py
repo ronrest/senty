@@ -44,7 +44,13 @@ class Timer(object):
         return pretty_time(self.elapsed())
 
 
+# ==============================================================================
+#                                                                   TOKENIZATION
+# ==============================================================================
 def tokenization(s):
+    """ A Naive function for tokenization of an input string
+        returns a list of the separae token strings.
+    """
     s = s.lower()
     s = s.replace(".", " . ")
     s = s.replace("'", " ' ")
