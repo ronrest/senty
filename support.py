@@ -69,4 +69,8 @@ def tokenization(s):
     return s
 
 
+def tokens2ids(tokens, word2id, unknown_id=0):
+    return [word2id.get(token, unknown_id) for token in tokens]
+
+
 
