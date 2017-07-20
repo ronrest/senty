@@ -44,4 +44,21 @@ class Timer(object):
         return pretty_time(self.elapsed())
 
 
+def tokenization(s):
+    s = s.lower()
+    s = s.replace(".", " . ")
+    s = s.replace("'", " ' ")
+    s = s.replace("/", " / ")
+    s = s.replace("<br  / >", " ")
+    s = s.replace("(", " ( ")
+    s = s.replace(")", " ) ")
+    s = s.replace(":", " : ")
+    s = s.replace("$", " $ ")
+    s = s.replace("?", " ? ")
+    s = s.replace("!", " ! ")
+    s = s.split()
+    
+    return s
+
+
 
