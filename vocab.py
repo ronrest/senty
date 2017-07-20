@@ -67,3 +67,18 @@ def create_vocab(data_dir, n=10000):
     
     return id2word, word2id
 
+def get_vocab(vocab_file, data_dir, max_vocab_size=10000):
+    # GET VOCABULARY
+    if os.path.exists(vocab_file):
+        print("LOADING VOCAB FROM PRE-CACHED FILE")
+        id2word = file2list(vocab_file)
+        word2id = {word: id for id, word in enumerate(id2word)}
+    else:
+        print("GENERATING VOCAB FROM RAW DATA")
+        id2word, word2id = create_vocab(data_dir, n=max_vocab_size)
+    
+        # Cache vocab to file
+        list2file(id2word, file=vocab_file)
+    
+    # n_vocab = len(id2word)
+    return id2word, word2id
