@@ -85,7 +85,14 @@ def tokens2ids(tokens, word2id, unknown_id=0):
     return [word2id.get(token, unknown_id) for token in tokens]
 
 
+# ==============================================================================
+#                                                                        STR2IDS
+# ==============================================================================
 def str2ids(s, word2id, unknown_id=0):
+    """ Given a string s, and a dictionary that maps from  tokens
+        to an index representing that word, it returns the string
+        represented as a list of token ids.
+    """
     line = tokenization(s)
     line = tokens2ids(line, word2id=word2id, unknown_id=unknown_id)
     return line
