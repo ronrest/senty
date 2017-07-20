@@ -1,4 +1,18 @@
+################################################################################
+#                                                             IMPORT AND GLOBALS
+################################################################################
 from __future__ import print_function, division, unicode_literals
+import glob
+import os
+import numpy as np
+
+from vocab import get_vocab
+from file_support import file2str
+from support import Timer, pretty_time
+
+DATA_DIR = "aclImdb"
+VOCAB_FILE = "vocab.txt"
+MAX_VOCAB_SIZE = 10000
 
 
 def train(model, X, Y):
