@@ -45,3 +45,13 @@ def vocab_tally_from_files(data_dir):
     return tally
 
 
+def create_vocab(data_dir, n=10000):
+    tally = vocab_tally_from_files(data_dir=data_dir)
+    tally = tally.most_common(n-1)
+    id2word = ["UNKNOWN"]
+    for word, _ in tally:
+        id2word.append(word)
+    word2id = {word: id for id, word in enumerate(id2word)}
+    
+    return id2word, word2id
+
