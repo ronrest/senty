@@ -87,3 +87,5 @@ def train(model, X, Y):
 # LOAD VOCAB
 id2word, word2id = get_vocab(VOCAB_FILE, DATA_DIR, MAX_VOCAB_SIZE)
 n_words = len(id2word)
+# LOAD DATA
+data = load_data(data_dir=DATA_DIR, datasets=["train", "test"])
