@@ -67,7 +67,24 @@ def create_vocab(data_dir, n=10000):
     
     return id2word, word2id
 
+
+# ==============================================================================
+#                                                                      GET_VOCAB
+# ==============================================================================
 def get_vocab(vocab_file, data_dir, max_vocab_size=10000):
+    """ Gets the vocabulary.
+        
+        If `vocab_file` has already been created, then it loads the vocabulary
+        from there, otherwise, it generates the vocabulary by looking at the
+        raw data, and caches the vocabulary in `vocab_file`.
+        
+        You can optionally set the max size of the vocabulary.
+        
+    Returns a tuple:
+            - id2word:  (list) that maps id values to tokens.
+                        The 0th index is reserved for 'UNKNOWN'
+            - word2id:  (dict) that maps token strings to integer ids
+    """
     # GET VOCABULARY
     if os.path.exists(vocab_file):
         print("LOADING VOCAB FROM PRE-CACHED FILE")
@@ -82,3 +99,4 @@ def get_vocab(vocab_file, data_dir, max_vocab_size=10000):
     
     # n_vocab = len(id2word)
     return id2word, word2id
+
