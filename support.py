@@ -113,6 +113,10 @@ def str2tensor(s, word2id, unknown_id=0):
 
 
 
+# ==============================================================================
+#                                                                   IDTENSOR2STR
+# ==============================================================================
 def idtensor2str(t, id2word):
+    """ Given a tensor of token ids, it returns a human readable string"""
     return " ".join([id2word[id] for id in t.data.numpy()])
 
