@@ -109,7 +109,16 @@ def list2file(a, file, encoding="UTF-8", verbose=True):
         print(" -- [DONE]")
 
 
+# ==============================================================================
+#                                                                      FILE2LIST
+# ==============================================================================
 def file2list(file, dtype=unicode, encoding="UTF-8"):
+    """ Takes a file path and returns each line of the file as an element
+        of a list. You can optionally typecast each line to the desired
+        datatype (by default it sets things to unicode strings.
+        
+        NOTE: that it strips out any whitespaces for each line
+    """
     with open(file, "r", encoding=encoding) as textFile:
         a = textFile.readlines()
         a = [dtype(item.strip()) for item in a]
