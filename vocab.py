@@ -45,7 +45,19 @@ def vocab_tally_from_files(data_dir):
     return tally
 
 
+# ==============================================================================
+#                                                                   CREATE_VOCAB
+# ==============================================================================
 def create_vocab(data_dir, n=10000):
+    """ Given the directory of where the data is located, and a vocab size, n,
+        It looks at all the words in the data, and trims it down to just the
+        most frequent n tokens.
+        
+        Returns a tuple:
+            - id2word:  (list) that maps id values to tokens.
+                        The 0th index is reserved for 'UNKNOWN'
+            - word2id:  (dict) that maps token strings to integer ids
+    """
     tally = vocab_tally_from_files(data_dir=data_dir)
     tally = tally.most_common(n-1)
     id2word = ["UNKNOWN"]
