@@ -113,3 +113,6 @@ def str2tensor(s, word2id, unknown_id=0):
 
 
 
+def idtensor2str(t, id2word):
+    return " ".join([id2word[id] for id in t.data.numpy()])
+
