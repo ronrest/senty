@@ -1,4 +1,6 @@
 from __future__ import print_function, division, unicode_literals
+import torch
+from torch.autograd import Variable
 import time
 
 
@@ -96,6 +98,11 @@ def str2ids(s, word2id, unknown_id=0):
     line = tokenization(s)
     line = tokens2ids(line, word2id=word2id, unknown_id=unknown_id)
     return line
+
+
+def str2tensor(s, word2id, unknown_id=0):
+    ids = str2ids(s, word2id, unknown_id=unknown_id)
+    return (Variable(torch.LongTensor(ids)))
 
 
 
