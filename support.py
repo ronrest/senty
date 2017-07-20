@@ -53,7 +53,10 @@ def tokenization(s):
     """
     s = s.lower()
     s = s.replace(".", " . ")
+    s = s.replace(",", " , ")
+    s = s.replace("\"", " \" ")
     s = s.replace("'", " ' ")
+    s = s.replace("%", " % ")
     s = s.replace("/", " / ")
     s = s.replace("<br  / >", " ")
     s = s.replace("(", " ( ")
@@ -63,7 +66,6 @@ def tokenization(s):
     s = s.replace("?", " ? ")
     s = s.replace("!", " ! ")
     s = s.split()
-    
     return s
 
 
