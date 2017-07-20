@@ -89,4 +89,20 @@ def file2str(file, encoding="UTF-8"):
     return text
 
 
+def list2file(a, file, encoding="UTF-8", verbose=True):
+    if verbose:
+        print("Writing to file: ", file, end="")
+        
+    # maybe make the parent dir
+    pardir = os.path.dirname(file)
+    if not (pardir == ""):
+        maybe_mkdir(pardir)
+
+    with open(file, "w", encoding=encoding) as textFile:
+        text = textFile.writelines([unicode(line) + "\n" for line in a])
+
+    if verbose:
+        print(" -- [DONE]")
+
+
 
