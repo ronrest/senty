@@ -20,6 +20,9 @@ MAX_VOCAB_SIZE = 10000
 #                                                           SUPPORTING FUNCTIONS
 ################################################################################
 
+# ==============================================================================
+#                                                                      LOAD_DATA
+# ==============================================================================
 def load_data(data_dir, datasets=["train", "test"], classes=["neg", "pos"]):
     # TODO: Create validation data from the test data
     ext = "txt"  # file extensions to look for
