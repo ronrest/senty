@@ -46,3 +46,6 @@ def train(model, X, Y):
 ################################################################################
 #                                                                           DATA
 ################################################################################
+# LOAD VOCAB
+id2word, word2id = get_vocab(VOCAB_FILE, DATA_DIR, MAX_VOCAB_SIZE)
+n_words = len(id2word)
