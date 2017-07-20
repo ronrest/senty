@@ -69,7 +69,19 @@ def tokenization(s):
     return s
 
 
+# ==============================================================================
+#                                                                     TOKENS2IDS
+# ==============================================================================
 def tokens2ids(tokens, word2id, unknown_id=0):
+    """ Maps a list of token srings to a list of token ids.
+    
+    Args:
+        tokens:     (list of strings) The list of token strings
+        word2id:    (dict) Dictionary that maps token strings to ids
+        unknown_id: (int) The id for unknown words (words not in the vocab)
+
+    Returns: (list of ints)
+    """
     return [word2id.get(token, unknown_id) for token in tokens]
 
 
