@@ -109,4 +109,9 @@ def list2file(a, file, encoding="UTF-8", verbose=True):
         print(" -- [DONE]")
 
 
+def file2list(file, dtype=unicode, encoding="UTF-8"):
+    with open(file, "r", encoding=encoding) as textFile:
+        a = textFile.readlines()
+        a = [dtype(item.strip()) for item in a]
+    return a
 
