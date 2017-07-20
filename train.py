@@ -15,6 +15,10 @@ VOCAB_FILE = "vocab.txt"
 MAX_VOCAB_SIZE = 10000
 
 
+################################################################################
+#                                                           SUPPORTING FUNCTIONS
+################################################################################
+
 def train(model, X, Y):
     # Get dimensions of input and target labels
     msg = "X and Y should be only one axis in shape"
@@ -37,3 +41,8 @@ def train(model, X, Y):
     # Return the loss
     return loss.data[0]
 
+
+
+################################################################################
+#                                                                           DATA
+################################################################################
