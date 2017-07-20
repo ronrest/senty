@@ -100,7 +100,14 @@ def str2ids(s, word2id, unknown_id=0):
     return line
 
 
+# ==============================================================================
+#                                                                     STR2TENSOR
+# ==============================================================================
 def str2tensor(s, word2id, unknown_id=0):
+    """ Given a string, and a dictionary that maps each word to an
+        integer representing the embedding index, it converts the sequence
+        of characters in s to a pytorch Variable tensor of character ids.
+    """
     ids = str2ids(s, word2id, unknown_id=unknown_id)
     return (Variable(torch.LongTensor(ids)))
 
