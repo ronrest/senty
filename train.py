@@ -67,13 +67,10 @@ def load_data(data_dir, datasets=["train", "test"], classes=["neg", "pos"]):
 
 def train_step(model, X, Y):
     # Get dimensions of input and target labels
-    msg = "X and Y should be only one axis in shape"
-    assert len(X.size()) == len(Y.size()) == 1, msg
-    batch_size=1
-    sample_length = X.size()[0]
+    batch_size, sample_length = X.size()
     
     # Initialize hidden state and reset the accumulated gradients
-    hidden = model.init_hidden()
+    hidden = model.init_hidden(batch_size)
     model.zero_grad()
     
     # Run through the sequence on the LSTM
@@ -86,7 +83,6 @@ def train_step(model, X, Y):
     
     # Return the loss
     return loss.data[0]
-
 
 
 ################################################################################
