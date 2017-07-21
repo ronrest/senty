@@ -49,7 +49,7 @@ def load_data(data_dir, datasets=["train", "test"], classes=["neg", "pos"]):
             
             # ITERATE THROUGH EACH FILE
             for file in files:
-                # create tuple of [class, text from file]
+                # Create input features and labels
                 text = file2str(file)
                 text = str2ids(text, word2id=word2id)
                 data["x"+dataset].append(text)
