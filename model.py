@@ -31,7 +31,7 @@ class Model(nn.Module):
         self.optimizer = torch.optim.Adam(self.parameters(), lr=self.alpha)
     
     def forward(self, input, hidden):
-        timesteps = input.size()[0]
+        timesteps = input.size()[1]
         
         input = self.embeddings(input)
         # Reshape input dimensions to (batch_size, timesteps, embed_size)
@@ -45,8 +45,8 @@ class Model(nn.Module):
         
         return output, hidden
     
-    def init_hidden(self):
-        self.batch_size = 1
+    def init_hidden(self, batch_size):
+        self.batch_size = batch_size
         # Note batch is always second index for hidden EVEN when batch_first
         # argument was set for the LSTM.
         return (Variable(torch.zeros(self.n_layers, self.batch_size, self.h_size)),
