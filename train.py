@@ -8,7 +8,7 @@ import numpy as np
 
 from vocab import get_vocab
 from file_support import file2str
-from support import str2tensor, idtensor2str
+from support import str2ids, idtensor2str
 from support import Timer, pretty_time
 
 DATA_DIR = "aclImdb"
@@ -26,7 +26,10 @@ MAX_VOCAB_SIZE = 10000
 def load_data(data_dir, datasets=["train", "test"], classes=["neg", "pos"]):
     # TODO: Create validation data from the test data
     ext = "txt"  # file extensions to look for
-    data = {"train": [], "test": []}
+    data = {"xtrain": [],
+            "ytrain": [],
+            "xtest": [],
+            "ytest": []}
     
     # ITERATE THROUGH EACH OF THE DATASETS
     for dataset in datasets:
@@ -46,14 +49,19 @@ def load_data(data_dir, datasets=["train", "test"], classes=["neg", "pos"]):
             for file in files:
                 # create tuple of [class, text from file]
                 text = file2str(file)
-                text = str2tensor(text, word2id=word2id)
-                data[dataset].append([text, class_id])
+                text = str2ids(text, word2id=word2id)
+                data["x"+dataset].append(text)
+                data["y"+dataset].append(class_id)
             
             print("-- DONE in {}".format(timer.elapsed_string()))
         
-        # RANDOMIZE THE ORDER OF THE TUPLES
-        np.random.shuffle(data[dataset])
-    
+        # RANDOMIZE THE ORDER OF THE data
+        # TODO: Consider using a different method that does it in place
+        n = len(data["y"+dataset])
+        ids = np.random.permutation(n)
+        data["x" + dataset] = map(lambda id: data["x" + dataset][id], ids)
+        data["y" + dataset] = map(lambda id: data["y" + dataset][id], ids)
+        
     return data
 
 
