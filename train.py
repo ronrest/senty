@@ -65,7 +65,26 @@ def load_data(data_dir, datasets=["train", "test"], classes=["neg", "pos"]):
     return data
 
 
+# ==============================================================================
+#                                                                     TRAIN_STEP
+# ==============================================================================
 def train_step(model, X, Y):
+    """ Given a model, the input X representing a batch of  sequences  of
+        words, and the output labels Y, it performs a full training step,
+        updating the model parameters. based on the loss and optimizer of
+        the model.
+
+    Args:
+        model:      (Model object)
+                    The model containing the neural net architecture.
+        X:          (torch Variable)
+                    The input tensor of shape: [sequence_length]
+        Y:          (torch Variable)
+                    The output labels tensor of shape: [1]
+
+    Returns:
+        Returns the average loss over the batch of sequences.
+    """
     # Get dimensions of input and target labels
     batch_size, sample_length = X.size()
     
