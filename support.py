@@ -120,3 +120,13 @@ def idtensor2str(t, id2word):
     """ Given a tensor of token ids, it returns a human readable string"""
     return " ".join([id2word[id] for id in t.data.numpy()])
 
+def process_line_for_batch(a, maxlen, padval=0):
+    # TODO: Select a random subsection instead of just fist maxlen items
+    
+    if len(a) > maxlen:
+        a = a[:maxlen]
+    elif len(a) < maxlen:
+        a = np.pad(a, (maxlen - len(a), 0), 'constant', constant_values=padval)
+    return a
+
+
