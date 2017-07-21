@@ -145,7 +145,32 @@ def process_line_for_batch(a, maxlen, padval=0):
     return a
 
 
+# ==============================================================================
+#                                                                   CREATE_BATCH
+# ==============================================================================
 def create_batch(x, y, batchsize=32, maxlen=100, padval=0):
+    """ Given the input sequences x, and output labels y, it randomly
+        samples a `batchsize` sized batch, keeping each sequence to a
+        maximum length of `maxlen`. Any sequences  longer  than  this
+        will be trimmed, and any sequences shorter than this will  be
+        padded with `padval` at the start.
+
+    Args:
+        x:          (array of array of ints)
+                    The input sequences
+        y:          (array of ints)
+                    The output labels
+        batchsize:  (int)(default=32)
+                    How many samples to use in the batch.
+        maxlen:     (int)(default=100)
+                    Clip sequences to be no longer than this length,
+                    and pad anything shorter.
+        padval:     (int)(default=0)
+                    Value to use for padding.
+
+    Returns: (tuple)
+        (xbatch, ybatch)
+    """
     # INITIALIZE EMPTY BATCH OF ARRAYS
     xbatch = np.empty((batchsize, maxlen), dtype=np.int64)
     ybatch = np.empty(batchsize, dtype=np.int64)
