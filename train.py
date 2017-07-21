@@ -117,3 +117,11 @@ class2id = {label:id for id, label in enumerate(id2class)}
 
 # LOAD DATA
 data = load_data(data_dir=DATA_DIR, datasets=["train", "test"])
+
+
+################################################################################
+#                                                                          MODEL
+################################################################################
+model = Model(n_vocab=n_words, embed_size=64, h_size=128, n_layers=1, dropout=0.3)
+model.update_learning_rate(0.001)
+
