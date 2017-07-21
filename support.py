@@ -120,7 +120,21 @@ def idtensor2str(t, id2word):
     """ Given a tensor of token ids, it returns a human readable string"""
     return " ".join([id2word[id] for id in t.data.numpy()])
 
+
+# ==============================================================================
+#                                                         PROCESS_LINE_FOR_BATCH
+# ==============================================================================
 def process_line_for_batch(a, maxlen, padval=0):
+    """ Given a list of items, it returns a version of that list
+        with the length limited to  `maxlen`.  Lists  with  more
+        elements than  `maxlen`  will  be trimmed, and any lists
+        shorter than this will be padded with  `padval`  at  the
+        start.
+        
+    NOTE:
+        Currently, the trimming that is performed, is that it takes
+        the first `maxlen` items in the list.
+    """
     # TODO: Select a random subsection instead of just fist maxlen items
     
     if len(a) > maxlen:
