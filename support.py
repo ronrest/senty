@@ -1,4 +1,5 @@
 from __future__ import print_function, division, unicode_literals
+import numpy as np
 import torch
 from torch.autograd import Variable
 import time
@@ -144,3 +145,20 @@ def process_line_for_batch(a, maxlen, padval=0):
     return a
 
 
+def create_batch(x, y, batchsize=32, maxlen=100, padval=0):
+    # INITIALIZE EMPTY BATCH OF ARRAYS
+    xbatch = np.empty((batchsize, maxlen), dtype=np.int64)
+    ybatch = np.empty(batchsize, dtype=np.int64)
+    
+    # RANDOMLY SAMPLE ITEMS FROM DATA - clipping or padding lengths to maxlen
+    n_data = len(y)
+    indices = np.random.randint(0, n_data, size=batchsize, dtype=np.int64)
+    for i, idx in enumerate(indices):
+        xbatch[i] = process_line_for_batch(x[idx], maxlen=maxlen, padval=padval)
+        ybatch[i] = y[idx]
+    
+    # CONVERT TO PYTORCH VARIABLES
+    xbatch = Variable(torch.LongTensor(xbatch))
+    ybatch = Variable(torch.LongTensor(ybatch))
+    
+    return xbatch, ybatch
