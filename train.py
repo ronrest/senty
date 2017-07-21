@@ -65,7 +65,7 @@ def load_data(data_dir, datasets=["train", "test"], classes=["neg", "pos"]):
     return data
 
 
-def train(model, X, Y):
+def train_step(model, X, Y):
     # Get dimensions of input and target labels
     msg = "X and Y should be only one axis in shape"
     assert len(X.size()) == len(Y.size()) == 1, msg
