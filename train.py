@@ -108,6 +108,7 @@ def train_step(model, X, Y):
 #                                                                           DATA
 ################################################################################
 # LOAD VOCAB
+# TODO: make vocab files named "vocab_10000.txt" where the number is vocab size
 id2word, word2id = get_vocab(VOCAB_FILE, DATA_DIR, MAX_VOCAB_SIZE)
 n_words = len(id2word)
 
