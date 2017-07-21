@@ -55,12 +55,13 @@ def create_vocab(data_dir, n=10000):
         
         Returns a tuple:
             - id2word:  (list) that maps id values to tokens.
-                        The 0th index is reserved for 'UNKNOWN'
+                        The 0th index is reserved for 'PAD',
+                        The 1st index is reserved for 'UNKNOWN'
             - word2id:  (dict) that maps token strings to integer ids
     """
     tally = vocab_tally_from_files(data_dir=data_dir)
-    tally = tally.most_common(n-1)
-    id2word = ["UNKNOWN"]
+    tally = tally.most_common(n-2)
+    id2word = ["PAD", "UNKNOWN"]
     for word, _ in tally:
         id2word.append(word)
     word2id = {word: id for id, word in enumerate(id2word)}
