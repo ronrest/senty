@@ -58,3 +58,11 @@ class Model(nn.Module):
             param_group['lr'] = alpha
         self.alpha = alpha
 
+
+# # CODE TO RUN A FORWARD PASS
+# model = Model(n_vocab=10, embed_size=5, h_size=7, n_layers=1, dropout=0.5)
+# hidden = model.init_hidden( )
+# model.zero_grad()
+# input = Variable(torch.LongTensor([3,1,7, 4]))
+# out, _ = model(input, hidden)
+
