@@ -12,6 +12,8 @@ from support import str2ids, idtensor2str
 from support import Timer, pretty_time
 
 DATA_DIR = "aclImdb"
+from model import Model
+
 VOCAB_FILE = "vocab.txt"
 MAX_VOCAB_SIZE = 10000
 
