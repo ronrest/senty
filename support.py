@@ -91,7 +91,7 @@ def tokens2ids(tokens, word2id, unknown_id=0):
 # ==============================================================================
 #                                                                        STR2IDS
 # ==============================================================================
-def str2ids(s, word2id, unknown_id=0):
+def str2ids(s, word2id, unknown_id=1):
     """ Given a string s, and a dictionary that maps from  tokens
         to an index representing that word, it returns the string
         represented as a list of token ids.
