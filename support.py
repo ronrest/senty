@@ -1,5 +1,6 @@
 from __future__ import print_function, division, unicode_literals
 import os
+import glob
 import numpy as np
 import torch
 from torch.autograd import Variable
@@ -244,4 +245,20 @@ def epoch_snapshot(model, epoch, loss, name, dir, verbose=True):
     
     take_snapshot(model, filepath, verbose=verbose)
 
+
+# ==============================================================================
+#                                                           LOAD_LATEST_SNAPSHOT
+# ==============================================================================
+def load_latest_snapshot(model, dir):
+    """ Given a model, and the path to the dir containing the snapshots,
+        It loads the parameters from the latest saved snapshot.
+
+        If file, does not exits, then it does nothing.
+    """
+    try:
+        params_file = sorted(glob.glob(os.path.join(dir, "*.params")))[-1]
+        model.load_state_dict(torch.load(params_file))
+        print("LOADING PARAMETERS FROM:", params_file)
+    except IndexError:
+        print("USING MODELS INITIAL PARAMETERS")
 
