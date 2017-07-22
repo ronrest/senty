@@ -213,3 +213,13 @@ def take_snapshot(model, file, verbose=True):
         print("SAVED SNAPSHOT: {}".format(file))
 
 
+# ==============================================================================
+#                                                                  LOAD_SNAPSHOT
+# ==============================================================================
+def load_snapshot(model, file):
+    """ Given a model, and the path to a snapshot file, It loads the
+        parameters from that snapshot file.
+    """
+    model.load_state_dict(torch.load(file))
+
+
