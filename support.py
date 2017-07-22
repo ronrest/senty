@@ -149,16 +149,16 @@ def process_line_for_batch(a, maxlen, padval=0):
 #                                                                   CREATE_BATCH
 # ==============================================================================
 def create_batch(x, y, batchsize=32, maxlen=100, padval=0):
-    """ Given the input sequences x, and output labels y, it randomly
-        samples a `batchsize` sized batch, keeping each sequence to a
-        maximum length of `maxlen`. Any sequences  longer  than  this
-        will be trimmed, and any sequences shorter than this will  be
-        padded with `padval` at the start.
+    """ Given the input sequences x (and optionally output labels y),
+        it  randomly samples a `batchsize` sized batch, keeping each
+        sequence  to  a  maximum  length  of `maxlen`. Any sequences
+        longer than  this will be trimmed, and any sequences shorter
+        than this will  be padded with `padval` at the start.
 
     Args:
         x:          (array of array of ints)
                     The input sequences
-        y:          (array of ints)
+        y:          (array of ints or None)(optional)
                     The output labels
         batchsize:  (int)(default=32)
                     How many samples to use in the batch.
@@ -168,22 +168,30 @@ def create_batch(x, y, batchsize=32, maxlen=100, padval=0):
         padval:     (int)(default=0)
                     Value to use for padding.
 
-    Returns: (tuple)
-        (xbatch, ybatch)
+    Returns:
+        If `y` is None, then it just returns xbatch, otherwise it
+        returns a tuple (xbatch, ybatch)
     """
     # INITIALIZE EMPTY BATCH OF ARRAYS
     xbatch = np.empty((batchsize, maxlen), dtype=np.int64)
-    ybatch = np.empty(batchsize, dtype=np.int64)
+    if y:
+        ybatch = np.empty(batchsize, dtype=np.int64)
     
     # RANDOMLY SAMPLE ITEMS FROM DATA - clipping or padding lengths to maxlen
-    n_data = len(y)
+    n_data = len(x)
     indices = np.random.randint(0, n_data, size=batchsize, dtype=np.int64)
     for i, idx in enumerate(indices):
         xbatch[i] = process_line_for_batch(x[idx], maxlen=maxlen, padval=padval)
-        ybatch[i] = y[idx]
+        if y:
+            ybatch[i] = y[idx]
     
     # CONVERT TO PYTORCH VARIABLES
     xbatch = Variable(torch.LongTensor(xbatch))
-    ybatch = Variable(torch.LongTensor(ybatch))
+    if y:
+        ybatch = Variable(torch.LongTensor(ybatch))
     
-    return xbatch, ybatch
+    if y:
+        return xbatch, ybatch
+    else:
+        return xbatch
+
