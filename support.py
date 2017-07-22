@@ -148,7 +148,7 @@ def process_line_for_batch(a, maxlen, padval=0):
 # ==============================================================================
 #                                                                   CREATE_BATCH
 # ==============================================================================
-def create_batch(x, y, batchsize=32, maxlen=100, padval=0):
+def create_random_batch(x, y=None, batchsize=32, maxlen=100, padval=0):
     """ Given the input sequences x (and optionally output labels y),
         it  randomly samples a `batchsize` sized batch, keeping each
         sequence  to  a  maximum  length  of `maxlen`. Any sequences
