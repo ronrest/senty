@@ -149,7 +149,33 @@ def process_line_for_batch(a, maxlen, padval=0):
 
 
 # ==============================================================================
+#                                                             BATCH_FROM_INDICES
+# ==============================================================================
 def batch_from_indices(x, y=None, ids=[0], maxlen=100, padval=0):
+    """ Given the input sequences x (and optionally output labels y),
+        and a list of indices to use for the batch, it  extracts  the
+        sequences  at  those  indices,  keeping  each  sequence  to a
+        maximum  length  of `maxlen`. Any sequences  longer than this
+        will be trimmed, and any sequences shorter than this will  be
+        padded with `padval` at the start.
+
+    Args:
+        x:          (array of array of ints)
+                    The input sequences
+        y:          (array of ints or None)(optional)
+                    The output labels
+        ids:        (list of ints)
+                    The indices to extract.
+        maxlen:     (int)(default=100)
+                    Clip sequences to be no longer than this length,
+                    and pad anything shorter.
+        padval:     (int)(default=0)
+                    Value to use for padding.
+
+    Returns:
+        If `y` is None, then it just returns xbatch, otherwise it
+        returns a tuple (xbatch, ybatch)
+    """
     # INITIALIZE EMPTY BATCH OF ARRAYS
     batchsize = len(ids)
     xbatch = np.empty((batchsize, maxlen), dtype=np.int64)
