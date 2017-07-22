@@ -195,3 +195,20 @@ def create_random_batch(x, y=None, batchsize=32, maxlen=100, padval=0):
     else:
         return xbatch
 
+# ==============================================================================
+#                                                                  TAKE_SNAPSHOT
+# ==============================================================================
+def take_snapshot(model, file, verbose=True):
+    """ Takes a snapshot of all the parameter values of a model.
+
+    Args:
+        model: (Model Object)
+        file:  (str) filepath to save file as
+        verbose: (bool)(default=True) whether it should print out feedback.
+    """
+    maybe_make_pardir(file)
+    torch.save(model.state_dict(), file)
+    if verbose:
+        print("SAVED SNAPSHOT: {}".format(file))
+
+
