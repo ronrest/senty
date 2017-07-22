@@ -149,6 +149,31 @@ def process_line_for_batch(a, maxlen, padval=0):
 
 
 # ==============================================================================
+def batch_from_indices(x, y=None, ids=[0], maxlen=100, padval=0):
+    # INITIALIZE EMPTY BATCH OF ARRAYS
+    batchsize = len(ids)
+    xbatch = np.empty((batchsize, maxlen), dtype=np.int64)
+    if y:
+        ybatch = np.empty(batchsize, dtype=np.int64)
+    
+    # EXTRACT ITEMS FROM DATA - clipping or padding lengths to maxlen
+    for i, idx in enumerate(ids):
+        xbatch[i] = process_line_for_batch(x[idx], maxlen=maxlen, padval=padval)
+        if y:
+            ybatch[i] = y[idx]
+    
+    # CONVERT TO PYTORCH VARIABLES
+    xbatch = Variable(torch.LongTensor(xbatch))
+    if y:
+        ybatch = Variable(torch.LongTensor(ybatch))
+    
+    if y:
+        return xbatch, ybatch
+    else:
+        return xbatch
+
+
+# ==============================================================================
 #                                                            CREATE_RANDOM_BATCH
 # ==============================================================================
 def create_random_batch(x, y=None, batchsize=32, maxlen=100, padval=0):
