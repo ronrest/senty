@@ -149,7 +149,7 @@ def process_line_for_batch(a, maxlen, padval=0):
 
 
 # ==============================================================================
-#                                                                   CREATE_BATCH
+#                                                            CREATE_RANDOM_BATCH
 # ==============================================================================
 def create_random_batch(x, y=None, batchsize=32, maxlen=100, padval=0):
     """ Given the input sequences x (and optionally output labels y),
@@ -175,28 +175,9 @@ def create_random_batch(x, y=None, batchsize=32, maxlen=100, padval=0):
         If `y` is None, then it just returns xbatch, otherwise it
         returns a tuple (xbatch, ybatch)
     """
-    # INITIALIZE EMPTY BATCH OF ARRAYS
-    xbatch = np.empty((batchsize, maxlen), dtype=np.int64)
-    if y:
-        ybatch = np.empty(batchsize, dtype=np.int64)
+    ids = np.random.randint(0, len(x), size=batchsize, dtype=np.int64)
+    return batch_from_indices(x, y, ids=ids, maxlen=maxlen, padval=padval)
     
-    # RANDOMLY SAMPLE ITEMS FROM DATA - clipping or padding lengths to maxlen
-    n_data = len(x)
-    indices = np.random.randint(0, n_data, size=batchsize, dtype=np.int64)
-    for i, idx in enumerate(indices):
-        xbatch[i] = process_line_for_batch(x[idx], maxlen=maxlen, padval=padval)
-        if y:
-            ybatch[i] = y[idx]
-    
-    # CONVERT TO PYTORCH VARIABLES
-    xbatch = Variable(torch.LongTensor(xbatch))
-    if y:
-        ybatch = Variable(torch.LongTensor(ybatch))
-    
-    if y:
-        return xbatch, ybatch
-    else:
-        return xbatch
 
 # ==============================================================================
 #                                                                  TAKE_SNAPSHOT
