@@ -127,6 +127,32 @@ def train_step(model, X, Y):
     return loss.data[0]
 
 
+# ==============================================================================
+#                                                           PRINT_TRAIN_FEEDBACK
+# ==============================================================================
+def print_train_feedback(step, loss, progress, elapsed_time, avg_time_ms):
+    """ Prints a line of feedback about the training process such as:
+
+         3000 (  18.8%) 00:00:02 | AVG_MS:  25.47 | LOSS:  2.42164
+
+          ^      ^       ^         ^                ^
+          |      |       |         |                L Loss
+          |      |       |         |
+          |      |       |         L Average train time per sample
+          |      |       |
+          |      |       L Elapsed time
+          |      |
+          |      L Progress
+          |
+          L Step number
+    """
+    # avg_time_ms = avg_time * 1000
+    
+    #    3000 (  18.8%) 00:00:02 | AVG_MS:  25.47 | LOSS:  2.421
+    template = "{: 8d} ({: 6.1f}%) {} | AVG_MS:{: 7.2f} | LOSS:{: 3.5f}"
+    print(template.format(step, progress, pretty_time(elapsed_time), avg_time_ms, loss))
+
+
 ################################################################################
 #                                                                           DATA
 ################################################################################
