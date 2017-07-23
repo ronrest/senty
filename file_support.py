@@ -201,6 +201,25 @@ def str2dict(s):
 
 
 # ==============================================================================
+#                                                                       DICT2STR
+# ==============================================================================
+def dict2str(d, keys=None):
+    """ Given a dictionary, it creates a string representation of it. such as:
+
+            '''name: bob
+            age: 30
+            height: 161'''
+    Args:
+        d:      (dict)
+        keys:   (list) List of keys specifying that you only want to
+                make use of these keys (ignore all other keys).
+    """
+    keys = keys if keys is not None else d.keys()
+    lines = ["{}: {}".format(key, d[key]) for key in keys]
+    return "\n".join(lines)
+
+
+# ==============================================================================
 #                                                                      FILE2DICT
 # ==============================================================================
 def file2dict(file):
@@ -215,4 +234,16 @@ def file2dict(file):
     """
     s = file2str(file)
     return str2dict(s)
+
+
+# ==============================================================================
+#                                                                      DICT2FILE
+# ==============================================================================
+def dict2file(d, file, keys=None):
+    """ Given a dictionary, and a file path, it saves the dictionary as a
+        text file. You can optionally specify a subset of keys to use as a
+        list.
+    """
+    s = dict2str(d, keys)
+    str2file(s, file, append=False, sep="")
 
