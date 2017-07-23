@@ -90,6 +90,17 @@ def file2str(file, encoding="UTF-8"):
 
 
 # ==============================================================================
+def str2file(s, file, append=True, sep="\n"):
+    mode = "a" if append else "w"  # Append or replace mode
+    if append and (sep != ""):
+        s = sep + s  # Appended text separated by desired string
+    
+    # SAVE- Ensuring parent directory structure exists
+    maybe_make_pardir(file)
+    with open(file, mode=mode) as textFile:
+        textFile.write(unicode(s))
+
+
 #                                                                      LIST2FILE
 # ==============================================================================
 def list2file(a, file, encoding="UTF-8", verbose=True):
