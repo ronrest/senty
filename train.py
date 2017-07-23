@@ -264,4 +264,11 @@ model = Model(n_vocab=n_words,
 model.update_learning_rate(hyper["LAST_ALPHA"])
 
 
+################################################################################
+#                                                                          TRAIN
+################################################################################
+evals = get_evals_dict(EVALS_FILE)
+train_n_steps(model, data, evals, n_steps=1000, batch_size=256, print_every=100, eval_every=1000)
+
+
 
