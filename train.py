@@ -186,7 +186,7 @@ def train_n_steps(model, data, evals, n_steps, batch_size=128, print_every=100, 
                          step=start_step+step)
 
             # SAVE SNAPSHOTS - of model parameters, and evals dict
-            epoch_snapshot(model, snapshot_count, loss=epoch_loss,
+            epoch_snapshot(model, snapshot_count, accuracy=valid_acc,
                            name=MODEL_NAME, dir=SNAPSHOTS_DIR)
             obj2pickle(evals, EVALS_FILE)
 

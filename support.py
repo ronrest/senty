@@ -267,19 +267,19 @@ def load_snapshot(model, file):
 # ==============================================================================
 #                                                                 EPOCH_SNAPSHOT
 # ==============================================================================
-def epoch_snapshot(model, epoch, loss, name, dir, verbose=True):
+def epoch_snapshot(model, epoch, accuracy, name, dir, verbose=True):
     """ Takes a snapshot of all the parameter values of a model.
 
     Args:
         model: (Model Object)
         epoch: (int)
-        loss:  (float)
+        accuracy:  (float) value between [0.0, 1.0]
         name:  (str) model name
         dir:   (str) directory where snapshots will be taken
         verbose: (bool)(default=True) whether it should print out feedback.
     """
-    template = "{model}_{epoch:05d}_{loss:06.3f}.params"
-    filename = template.format(model=name, epoch=epoch, loss=loss)
+    template = "{model}_{epoch:05d}_{accuracy:06.3f}.params"
+    filename = template.format(model=name, epoch=epoch, accuracy=accuracy*100)
     filepath = os.path.join(dir, filename)
     
     take_snapshot(model, filepath, verbose=verbose)
