@@ -7,9 +7,12 @@ import os
 import numpy as np
 
 from vocab import get_vocab
-from file_support import file2str
-from support import str2ids, idtensor2str
+from file_support import file2str, obj2pickle
+from support import str2ids, idtensor2str, ids2str
 from support import Timer, pretty_time
+from support import create_random_batch, batch_from_indices
+from support import load_snapshot, take_snapshot, epoch_snapshot, load_hyper_params
+from eval import evaluate_model, get_evals_dict, update_evals
 
 DATA_DIR = "aclImdb"
 from model import Model
@@ -128,6 +131,72 @@ def train_step(model, X, Y):
 
 
 # ==============================================================================
+#                                                                  TRAIN_N_STEPS
+# ==============================================================================
+def train_n_steps(model, data, evals, n_steps, batch_size=128, print_every=100, eval_every=1000):
+    # TODO: Start epoch timer at last epoch time from evals (but take into
+    # acount eval time)
+    epoch_loss = 0
+    snapshot_count = len(evals["loss"])
+    start_step = evals["step"][-1] if snapshot_count > 0 else 0
+    start_step += 1
+
+    epoch_timer = Timer()
+    step_timer = Timer()
+    eval_timer = Timer()
+    
+    for step in range(start_step, start_step + n_steps + 1):
+        step_timer.start()
+        X, Y = create_random_batch(data["xtrain"], data["ytrain"],
+                                   batchsize=batch_size)
+        loss = train_step(model, X, Y)
+        epoch_loss += loss
+        
+        # PRINTOUTS
+        if step % print_every == 0:
+            progress = 100 * float(step-start_step) / n_steps
+            print_train_feedback(step, loss=loss, progress=progress,
+                                 elapsed_time=epoch_timer.elapsed(),
+                                 avg_time_ms=step_timer.elapsed()/batch_size)
+        
+        # EVALUATIONS AND SNAPSHOTS
+        if (step % eval_every == 0):
+            epoch_time = epoch_timer.elapsed()
+            
+            print("=" * 60)
+            snapshot_count += 1
+            epoch_loss /= eval_every
+            
+            # EVALUATE - on train and validation data
+            eval_timer.start()
+            train_acc = evaluate_model(model, data["xtrain"], data["ytrain"],
+                                       seq_maxlen=100)
+            eval_time = eval_timer.elapsed()
+            valid_acc = evaluate_model(model, data["xvalid"], data["yvalid"],
+                                       seq_maxlen=100)
+            print_epoch_feedback(train_acc, valid_acc, epoch_loss)
+            
+            # UPDATE EVALS
+            update_evals(evals,
+                         loss=epoch_loss,
+                         train_acc=train_acc,
+                         valid_acc=valid_acc,
+                         train_time=epoch_time,
+                         eval_time=eval_time,
+                         alpha=model.alpha,
+                         step=step)
+
+            # SAVE SNAPSHOTS - of model parameters, and evals dict
+            epoch_snapshot(model, snapshot_count, loss=epoch_loss,
+                           name=MODEL_NAME, dir=SNAPSHOTS_DIR)
+            obj2pickle(evals, EVALS_FILE)
+
+            # RESET
+            epoch_loss = 0
+            epoch_timer.start()
+            print("=" * 60)
+    print("DONE")
+
 
 # ==============================================================================
 #                                                           PRINT_TRAIN_FEEDBACK
