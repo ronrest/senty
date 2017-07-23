@@ -126,6 +126,14 @@ def idtensor2str(t, id2word):
 
 
 # ==============================================================================
+#                                                                        IDS2STR
+# ==============================================================================
+def ids2str(a, id2word):
+    """ Given a list of token ids, it returns a human readable string"""
+    return " ".join([id2word[id] for id in a])
+
+
+# ==============================================================================
 #                                                         PROCESS_LINE_FOR_BATCH
 # ==============================================================================
 def process_line_for_batch(a, maxlen, padval=0):
