@@ -25,15 +25,18 @@ MAX_VOCAB_SIZE = 10000
 # ==============================================================================
 #                                                                      LOAD_DATA
 # ==============================================================================
-def load_data(data_dir, datasets=["train", "test"], classes=["neg", "pos"]):
+def load_data(data_dir, classes=["neg", "pos"], valid_ratio= 0.3, seed=0):
     # TODO: Create validation data from the test data
     ext = "txt"  # file extensions to look for
     data = {"xtrain": [],
             "ytrain": [],
             "xtest": [],
-            "ytest": []}
+            "ytest": [],
+            "xvalid": [],
+            "yvalid": []}
     
     # ITERATE THROUGH EACH OF THE DATASETS
+    datasets = ["train", "test"]
     for dataset in datasets:
         timer = Timer()
         
@@ -60,10 +63,18 @@ def load_data(data_dir, datasets=["train", "test"], classes=["neg", "pos"]):
         # RANDOMIZE THE ORDER OF THE data
         # TODO: Consider using a different method that does it in place
         n = len(data["y"+dataset])
+        np.random.seed(seed=seed)
         ids = np.random.permutation(n)
         data["x" + dataset] = map(lambda id: data["x" + dataset][id], ids)
         data["y" + dataset] = map(lambda id: data["y" + dataset][id], ids)
         
+        # VALIDATION DATA - Split a portion of train data for validation
+        n_valid = int(len(data["ytrain"]) * valid_ratio)
+        data["xvalid"] = data["xtrain"][:n_valid]
+        data["yvalid"] = data["ytrain"][:n_valid]
+        data["xtrain"] = data["xtrain"][n_valid:]
+        data["ytrain"] = data["ytrain"][n_valid:]
+
     return data
 
 
