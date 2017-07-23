@@ -76,3 +76,7 @@ def predictions(model, x, batch_size=128, seq_maxlen=100, padval=0):
     return preds
 
 
+def accuracy(a, b):
+    return (np.array(a) == np.array(b)).mean()
+
+
