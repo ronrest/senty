@@ -96,3 +96,21 @@ def evaluate_model(model, x, y, batch_size=128, seq_maxlen=100, padval=0):
     return accuracy(preds, y)
 
 
+def get_evals_dict(file):
+    # KEEP TRACK OF EVALS - loading from file if they already exist
+    if os.path.exists(file):
+        print("LOADING EXISTING EVALS")
+        evals = pickle2obj(file)
+    else:
+        print("INITIALIZING NEW EVALS")
+        evals = {"loss": [],
+                 "train_acc": [],
+                 "valid_acc": [],
+                 "train_time": [], # Time taken to train each round
+                 "eval_time": [],  # Time on evaluation
+                 "alpha": [],
+                 "step": [],
+                 }
+    return evals
+
+
