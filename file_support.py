@@ -124,3 +124,60 @@ def file2list(file, dtype=unicode, encoding="UTF-8"):
         a = [dtype(item.strip()) for item in a]
     return a
 
+
+# ==============================================================================
+#                                                                       STR2DICT
+# ==============================================================================
+def str2dict(s):
+    """ Given a string, where each line contains a key value pair separated by
+        a colon, such as:
+
+            name: bob
+            age: 30
+            height: 161
+
+        It returns a dictionary such as:
+
+            {"name": "bob",
+             "age": "30",
+             "height": "161"
+            }
+
+    NOTES:
+        - Note that they keys and values will always be returned as strings.
+          You will need to manually update them to the data type you want.
+        - Note that all keys, and values will automatically have whitespaces
+          from either end automatically stripped.
+    """
+    output = {}
+    for line in s.splitlines():
+        
+        # Skip blank lines
+        if line.strip() == "":
+            continue
+        
+        # Extract content
+        key, val = line.split(":")
+        key = key.strip()
+        val = val.strip()
+        output[key] = val
+    
+    return output
+
+
+# ==============================================================================
+#                                                                      FILE2DICT
+# ==============================================================================
+def file2dict(file):
+    """ Takes a file path to a text file, where each line contains a
+        key, value pair separated by a colon, such as:
+
+            name: bob
+            age: 30
+            height: 161
+
+        And returns the contents of that file as a dictionary.
+    """
+    s = file2str(file)
+    return str2dict(s)
+
