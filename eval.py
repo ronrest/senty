@@ -96,7 +96,13 @@ def evaluate_model(model, x, y, batch_size=128, seq_maxlen=100, padval=0):
     return accuracy(preds, y)
 
 
+# ==============================================================================
+#                                                                 GET_EVALS_DICT
+# ==============================================================================
 def get_evals_dict(file):
+    """ Loads previously saved evals dict if it exists, otherwise
+        initializes a new blank one.
+    """
     # KEEP TRACK OF EVALS - loading from file if they already exist
     if os.path.exists(file):
         print("LOADING EXISTING EVALS")
