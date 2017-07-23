@@ -14,9 +14,15 @@ from support import Timer, pretty_time
 DATA_DIR = "aclImdb"
 from model import Model
 
-VOCAB_FILE = "vocab.txt"
+MODEL_NAME = "modelC"
 MAX_VOCAB_SIZE = 10000
 
+ROOT_DIR = ""
+VOCAB_FILE = os.path.join(ROOT_DIR, "vocab.txt")
+MODELS_DIR = os.path.join(ROOT_DIR, "models", MODEL_NAME)
+SNAPSHOTS_DIR = os.path.join(MODELS_DIR, "snapshots")
+EVALS_FILE = os.path.join(MODELS_DIR, "evals.pickle")
+HYPERPARAMS_FILE = os.path.join(MODELS_DIR, "hyperparams.txt")
 
 ################################################################################
 #                                                           SUPPORTING FUNCTIONS
