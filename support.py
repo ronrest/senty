@@ -301,7 +301,36 @@ def load_latest_snapshot(model, dir):
     except IndexError:
         print("USING MODELS INITIAL PARAMETERS")
 
+
+# ==============================================================================
+#                                                              LOAD_HYPER_PARAMS
+# ==============================================================================
 def load_hyper_params(file):
+    """ Given a text file containing the models hyper-parameters, it returns
+        a dictionary. of those items.
+
+        The text file should be in the following format:
+
+            SAMPLE_LENGTH: 200
+            BATCH_SIZE: 32
+            N_HIDDEN: 128
+            EMBED_SIZE: 128
+            N_LAYERS: 1
+            DROPOUT: 0.7
+            ALPHA: 0.01
+            N_VOCAB: 10000
+
+        Any key: value pairs that are not included in the file will be
+        replaced with the default values shown in the above example.
+
+        An additional optional key value pair may be included.
+
+            LAST_ALPHA: 0.01
+
+        This represents the last alpha that was used by the model.
+        If this key value pair is not included in the file, then
+        it will be created, using the same value from ALPHA.
+    """
     # If file exists load settings from file.
     # Otherwise, create default dictionary
     if os.path.exists(file) and os.path.isfile(file):
@@ -335,3 +364,4 @@ def load_hyper_params(file):
     d["LAST_ALPHA"] = float(d["LAST_ALPHA"])
     
     return d
+
