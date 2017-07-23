@@ -180,7 +180,7 @@ id2class = ["neg", "pos"]
 class2id = {label:id for id, label in enumerate(id2class)}
 
 # LOAD DATA
-data = load_data(data_dir=DATA_DIR, datasets=["train", "test"])
+data = load_data(data_dir=DATA_DIR, valid_ratio=0.3, seed=45)
 
 
 ################################################################################
