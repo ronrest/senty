@@ -311,7 +311,7 @@ def load_hyper_params(file):
 
         The text file should be in the following format:
 
-            N_VOCAB: 10000
+            MAX_VOCAB: 10000
             SAMPLE_LENGTH: 100
             BATCH_SIZE: 128
             N_HIDDEN: 128
@@ -339,7 +339,7 @@ def load_hyper_params(file):
         d = {}
     
     # Use defaults for missing items
-    d.setdefault("N_VOCAB", 10000)
+    d.setdefault("MAX_VOCAB", 10000)
     d.setdefault("SAMPLE_LENGTH", 100)
     d.setdefault("BATCH_SIZE", 128)
     d.setdefault("N_HIDDEN", 128)
@@ -349,7 +349,7 @@ def load_hyper_params(file):
     d.setdefault("ALPHA", 0.01)
     
     # Convert to correct data types
-    d["N_VOCAB"] = int(d["N_VOCAB"])
+    d["MAX_VOCAB"] = int(d["MAX_VOCAB"])
     d["SAMPLE_LENGTH"] = int(d["SAMPLE_LENGTH"])
     d["BATCH_SIZE"] = int(d["BATCH_SIZE"])
     d["N_HIDDEN"] = int(d["N_HIDDEN"])
@@ -382,7 +382,7 @@ def save_hyper_params(d, file):
             ALPHA: 0.01
             LAST_ALPHA: 0.01
     """
-    order = ["N_VOCAB",
+    order = ["MAX_VOCAB",
              "SAMPLE_LENGTH",
              "BATCH_SIZE",
              "N_HIDDEN",
