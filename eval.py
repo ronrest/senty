@@ -76,7 +76,15 @@ def predictions(model, x, batch_size=128, seq_maxlen=100, padval=0):
     return preds
 
 
+# ==============================================================================
+#                                                                       ACCURACY
+# ==============================================================================
 def accuracy(a, b):
+    """ Given predictions and true labels (doesnt matter which order), it
+        return the accuracy.
+         
+    NOTE: the inputs should be only be 1 axis.
+    """
     return (np.array(a) == np.array(b)).mean()
 
 
