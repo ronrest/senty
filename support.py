@@ -311,15 +311,15 @@ def load_hyper_params(file):
 
         The text file should be in the following format:
 
-            SAMPLE_LENGTH: 200
-            BATCH_SIZE: 32
-            N_HIDDEN: 128
-            EMBED_SIZE: 128
-            N_LAYERS: 1
-            DROPOUT: 0.7
-            ALPHA: 0.01
             N_VOCAB: 10000
-
+            SAMPLE_LENGTH: 100
+            BATCH_SIZE: 128
+            N_HIDDEN: 128
+            EMBED_SIZE: 64
+            N_LAYERS: 1
+            DROPOUT: 0.3
+            ALPHA: 0.01
+            
         Any key: value pairs that are not included in the file will be
         replaced with the default values shown in the above example.
 
@@ -339,6 +339,7 @@ def load_hyper_params(file):
         d = {}
     
     # Use defaults for missing items
+    d.setdefault("N_VOCAB", 10000)
     d.setdefault("SAMPLE_LENGTH", 100)
     d.setdefault("BATCH_SIZE", 128)
     d.setdefault("N_HIDDEN", 128)
@@ -346,10 +347,9 @@ def load_hyper_params(file):
     d.setdefault("N_LAYERS", 1)
     d.setdefault("DROPOUT", 0.3)
     d.setdefault("ALPHA", 0.01)
-    d.setdefault("N_VOCAB", 10000)
-
     
     # Convert to correct data types
+    d["N_VOCAB"] = int(d["N_VOCAB"])
     d["SAMPLE_LENGTH"] = int(d["SAMPLE_LENGTH"])
     d["BATCH_SIZE"] = int(d["BATCH_SIZE"])
     d["N_HIDDEN"] = int(d["N_HIDDEN"])
@@ -357,7 +357,6 @@ def load_hyper_params(file):
     d["N_LAYERS"] = int(d["N_LAYERS"])
     d["DROPOUT"] = float(d["DROPOUT"])
     d["ALPHA"] = float(d["ALPHA"])
-    d["N_VOCAB"] = int(d["N_VOCAB"])
     
     # Latest alpha
     d.setdefault("LAST_ALPHA", d["ALPHA"])
