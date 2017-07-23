@@ -128,6 +128,8 @@ def train_step(model, X, Y):
 
 
 # ==============================================================================
+
+# ==============================================================================
 #                                                           PRINT_TRAIN_FEEDBACK
 # ==============================================================================
 def print_train_feedback(step, loss, progress, elapsed_time, avg_time_ms):
@@ -151,6 +153,18 @@ def print_train_feedback(step, loss, progress, elapsed_time, avg_time_ms):
     #    3000 (  18.8%) 00:00:02 | AVG_MS:  25.47 | LOSS:  2.421
     template = "{: 8d} ({: 6.1f}%) {} | AVG_MS:{: 7.2f} | LOSS:{: 3.5f}"
     print(template.format(step, progress, pretty_time(elapsed_time), avg_time_ms, loss))
+
+
+# ==============================================================================
+#                                                           PRINT_TRAIN_FEEDBACK
+# ==============================================================================
+def print_epoch_feedback(train_acc, valid_acc, loss):
+    """ Prints feedback like:
+        
+        TRAIN ACC:  90.906 VALID ACC:  91.181  LOSS:  0.02215
+    """
+    s = "TRAIN ACC: {: 3.3f} VALID ACC: {: 3.3f}  LOSS: {: 3.5f}"
+    print(s.format(100 * train_acc, 100 * valid_acc, loss))
 
 
 ################################################################################
