@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from torch.autograd import Variable
 import time
-from file_support import maybe_make_pardir
+from file_support import maybe_make_pardir, file2dict
 
 
 # ==============================================================================
@@ -114,7 +114,6 @@ def str2tensor(s, word2id, unknown_id=0):
     """
     ids = str2ids(s, word2id, unknown_id=unknown_id)
     return (Variable(torch.LongTensor(ids)))
-
 
 
 # ==============================================================================
@@ -302,3 +301,37 @@ def load_latest_snapshot(model, dir):
     except IndexError:
         print("USING MODELS INITIAL PARAMETERS")
 
+def load_hyper_params(file):
+    # If file exists load settings from file.
+    # Otherwise, create default dictionary
+    if os.path.exists(file) and os.path.isfile(file):
+        d = file2dict(file)
+    else:
+        d = {}
+    
+    # Use defaults for missing items
+    d.setdefault("SAMPLE_LENGTH", 100)
+    d.setdefault("BATCH_SIZE", 128)
+    d.setdefault("N_HIDDEN", 128)
+    d.setdefault("EMBED_SIZE", 64)
+    d.setdefault("N_LAYERS", 1)
+    d.setdefault("DROPOUT", 0.3)
+    d.setdefault("ALPHA", 0.01)
+    d.setdefault("N_VOCAB", 10000)
+
+    
+    # Convert to correct data types
+    d["SAMPLE_LENGTH"] = int(d["SAMPLE_LENGTH"])
+    d["BATCH_SIZE"] = int(d["BATCH_SIZE"])
+    d["N_HIDDEN"] = int(d["N_HIDDEN"])
+    d["EMBED_SIZE"] = int(d["EMBED_SIZE"])
+    d["N_LAYERS"] = int(d["N_LAYERS"])
+    d["DROPOUT"] = float(d["DROPOUT"])
+    d["ALPHA"] = float(d["ALPHA"])
+    d["N_VOCAB"] = int(d["N_VOCAB"])
+    
+    # Latest alpha
+    d.setdefault("LAST_ALPHA", d["ALPHA"])
+    d["LAST_ALPHA"] = float(d["LAST_ALPHA"])
+    
+    return d
