@@ -104,6 +104,10 @@ def train_step(model, X, Y):
     Returns:
         Returns the average loss over the batch of sequences.
     """
+    # Ensure model is in training mode
+    if not model.training:
+        model.train(True)
+    
     # Get dimensions of input and target labels
     batch_size, sample_length = X.size()
     
