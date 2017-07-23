@@ -41,3 +41,16 @@ def batch_predictions(model, x, seq_maxlen=100, padval=0):
     return index.view(-1).numpy()
 
 
+def predictions(model, x, batch_size=128, seq_maxlen=100, padval=0):
+    n_samples = len(x)
+    n_batches = int(np.ceil(n_samples / batch_size))
+    preds = np.ones(shape=n_samples, dtype=np.int8) * 66
+    for i in range(0, n_samples, batch_size):
+        batch = x[i: i + batch_size]
+        preds[i: i + batch_size] = batch_predictions(model, batch,
+                                                    seq_maxlen=seq_maxlen,
+                                                    padval=padval)
+    
+    return preds
+
+
