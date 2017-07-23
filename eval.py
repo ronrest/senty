@@ -88,3 +88,11 @@ def accuracy(a, b):
     return (np.array(a) == np.array(b)).mean()
 
 
+# ==============================================================================
+#                                                                 EVALUATE_MODEL
+# ==============================================================================
+def evaluate_model(model, x, y, batch_size=128, seq_maxlen=100, padval=0):
+    preds = predictions(model, x, batch_size=batch_size, seq_maxlen=seq_maxlen, padval=padval)
+    return accuracy(preds, y)
+
+
