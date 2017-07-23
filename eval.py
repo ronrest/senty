@@ -41,7 +41,29 @@ def batch_predictions(model, x, seq_maxlen=100, padval=0):
     return index.view(-1).numpy()
 
 
+# ==============================================================================
+#                                                                    PREDICTIONS
+# ==============================================================================
 def predictions(model, x, batch_size=128, seq_maxlen=100, padval=0):
+    """ Given a model and all the input data you want predictions for,
+        it returns the predictions. It splits the data up into batches
+        to prevent memory bloat.
+
+    Args:
+        model:       (pytorch model)
+        x:           (list of list of ints)
+                     The input data, consisting of multiple sequences,
+                     where each sequence is a list of token ids.
+        batch_size:  (int)(default=128)
+                     How many samples to use for each batch.
+        seq_maxlen:  (int)(default=100)
+                     Trim/pad sequences to this length.
+        padval:      (int) (default=0)
+                     Value to use for padding.
+
+    Returns: (numpy array)
+        The array of predicted class ids for each sample in the batch.
+    """
     n_samples = len(x)
     n_batches = int(np.ceil(n_samples / batch_size))
     preds = np.ones(shape=n_samples, dtype=np.int8) * 66
