@@ -124,3 +124,14 @@ def get_evals_dict(file):
     return evals
 
 
+# ==============================================================================
+#                                                                   UPDATE_EVALS
+# ==============================================================================
+def update_evals(evals, loss, train_acc, valid_acc, train_time, eval_time, alpha, step):
+    evals["loss"].append(loss)
+    evals["train_acc"].append(train_acc)
+    evals["valid_acc"].append(valid_acc)
+    evals["train_time"].append(train_time)  # Time taken to train each round
+    evals["eval_time"].append(eval_time)  # Time on evaluation
+    evals["alpha"].append(alpha)
+    evals["step"].append(step)
