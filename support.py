@@ -383,7 +383,8 @@ def save_hyper_params(d, file):
             ALPHA: 0.01
             LAST_ALPHA: 0.01
     """
-    order = ["SAMPLE_LENGTH",
+    order = ["N_VOCAB",
+             "SAMPLE_LENGTH",
              "BATCH_SIZE",
              "N_HIDDEN",
              "EMBED_SIZE",
