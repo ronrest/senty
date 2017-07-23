@@ -144,7 +144,7 @@ def train_n_steps(model, data, evals, n_steps, batch_size=128, print_every=100, 
     step_timer = Timer()
     eval_timer = Timer()
     
-    for step in range(start_step, start_step + n_steps + 1):
+    for step in range(1, n_steps + 1):
         step_timer.start()
         X, Y = create_random_batch(data["xtrain"], data["ytrain"],
                                    batchsize=batch_size)
@@ -153,8 +153,8 @@ def train_n_steps(model, data, evals, n_steps, batch_size=128, print_every=100, 
         
         # PRINTOUTS
         if step % print_every == 0:
-            progress = 100 * float(step-start_step) / n_steps
-            print_train_feedback(step, loss=loss, progress=progress,
+            progress = 100 * float(step) / n_steps
+            print_train_feedback(start_step+step, loss=loss, progress=progress,
                                  elapsed_time=epoch_timer.elapsed(),
                                  avg_time_ms=step_timer.elapsed()/batch_size)
         
@@ -183,7 +183,7 @@ def train_n_steps(model, data, evals, n_steps, batch_size=128, print_every=100, 
                          train_time=epoch_time,
                          eval_time=eval_time,
                          alpha=model.alpha,
-                         step=step)
+                         step=start_step+step)
 
             # SAVE SNAPSHOTS - of model parameters, and evals dict
             epoch_snapshot(model, snapshot_count, loss=epoch_loss,
