@@ -18,7 +18,6 @@ DATA_DIR = "aclImdb"
 from model import Model
 
 MODEL_NAME = "modelC"
-MAX_VOCAB_SIZE = 10000
 
 ROOT_DIR = ""
 VOCAB_FILE = os.path.join(ROOT_DIR, "vocab.txt")
@@ -239,9 +238,11 @@ def print_epoch_feedback(train_acc, valid_acc, loss):
 ################################################################################
 #                                                                           DATA
 ################################################################################
+hyper = load_hyper_params(HYPERPARAMS_FILE)
+
 # LOAD VOCAB
 # TODO: make vocab files named "vocab_10000.txt" where the number is vocab size
-id2word, word2id = get_vocab(VOCAB_FILE, DATA_DIR, MAX_VOCAB_SIZE)
+id2word, word2id = get_vocab(VOCAB_FILE, DATA_DIR, hyper["MAX_VOCAB"])
 n_words = len(id2word)
 
 # CLASS MAPPINGS
@@ -255,6 +256,12 @@ data = load_data(data_dir=DATA_DIR, valid_ratio=0.3, seed=45)
 ################################################################################
 #                                                                          MODEL
 ################################################################################
-model = Model(n_vocab=n_words, embed_size=64, h_size=128, n_layers=1, dropout=0.3)
-model.update_learning_rate(0.001)
+model = Model(n_vocab=n_words,
+              embed_size=hyper["EMBED_SIZE"],
+              h_size=hyper["N_HIDDEN"],
+              n_layers=hyper["N_LAYERS"],
+              dropout=hyper["DROPOUT"])
+model.update_learning_rate(hyper["LAST_ALPHA"])
+
+
 
