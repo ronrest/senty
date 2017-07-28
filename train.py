@@ -12,8 +12,9 @@ from file_support import file2str, obj2pickle, pickle2obj
 from support import str2ids, idtensor2str, ids2str
 from support import Timer, pretty_time
 from support import create_random_batch, batch_from_indices
-from support import load_snapshot, take_snapshot, epoch_snapshot, load_hyper_params
+from support import load_snapshot, take_snapshot, epoch_snapshot, load_latest_snapshot
 from eval import evaluate_model, get_evals_dict, update_evals
+from support import load_hyper_params
 
 DATA_DIR = "aclImdb"
 from model import Model
@@ -278,6 +279,8 @@ model = Model(n_vocab=n_words,
               n_layers=hyper["N_LAYERS"],
               dropout=hyper["DROPOUT"])
 model.update_learning_rate(hyper["LAST_ALPHA"])
+load_latest_snapshot(model, SNAPSHOTS_DIR)
+
 
 
 ################################################################################
