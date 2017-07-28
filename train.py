@@ -8,7 +8,7 @@ import numpy as np
 import argparse
 
 from vocab import get_vocab
-from file_support import file2str, obj2pickle
+from file_support import file2str, obj2pickle, pickle2obj
 from support import str2ids, idtensor2str, ids2str
 from support import Timer, pretty_time
 from support import create_random_batch, batch_from_indices
@@ -259,8 +259,15 @@ id2class = ["neg", "pos"]
 class2id = {label:id for id, label in enumerate(id2class)}
 
 # LOAD DATA
-data = load_data(data_dir=DATA_DIR, valid_ratio=0.3, seed=45)
-
+CACHED_DATA = os.path.join(DATA_DIR, "data_{}.pickle".format(hyper["MAX_VOCAB"]))
+if os.path.exists(CACHED_DATA):
+    print("LOADING CACHED DATA")
+    data = pickle2obj(CACHED_DATA)
+else:
+    print("PROCESSING RAW DATA")
+    data = load_data(data_dir=DATA_DIR, valid_ratio=0.3, seed=45)
+    print("CACHING DATA")
+    obj2pickle(data, CACHED_DATA)
 
 ################################################################################
 #                                                                          MODEL
