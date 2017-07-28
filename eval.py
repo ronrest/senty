@@ -35,7 +35,7 @@ def batch_predictions(model, x, seq_maxlen=100, padval=0):
     model.zero_grad()
     
     # prepare data
-    X = batch_from_indices(x, ids=range(n_batch), maxlen=maxlen, padval=padval)
+    X = batch_from_indices(x, ids=range(n_batch), maxlen=seq_maxlen, padval=padval)
     out, _ = model(X, hidden)
     _, index = out.data.topk(1)
     
@@ -135,3 +135,4 @@ def update_evals(evals, loss, train_acc, valid_acc, train_time, eval_time, alpha
     evals["eval_time"].append(eval_time)  # Time on evaluation
     evals["alpha"].append(alpha)
     evals["step"].append(step)
+
