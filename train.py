@@ -5,6 +5,7 @@ from __future__ import print_function, division, unicode_literals
 import glob
 import os
 import numpy as np
+import argparse
 
 from vocab import get_vocab
 from file_support import file2str, obj2pickle
@@ -17,8 +18,16 @@ from eval import evaluate_model, get_evals_dict, update_evals
 DATA_DIR = "aclImdb"
 from model import Model
 
-MODEL_NAME = "modelC"
+# COMMAND LINE ARGUMENTS
+parser = argparse.ArgumentParser(description="Train a model")
+parser.add_argument("name", type=str, help="Model Name")
+parser.add_argument("-n", type=int, required=True, help="Num train steps")
+opt = parser.parse_args()
+MODEL_NAME = opt.name
+n_steps = opt.n
 
+
+# FILE AND DIR PATHS
 ROOT_DIR = ""
 VOCAB_FILE = os.path.join(ROOT_DIR, "vocab.txt")
 MODELS_DIR = os.path.join(ROOT_DIR, "models", MODEL_NAME)
