@@ -312,5 +312,9 @@ except KeyboardInterrupt:
     obj2pickle(evals, EVALS_FILE)
     save_hyper_params(hyper, HYPERPARAMS_FILE)
     
+# TODO: Pad the data with zeroes at the end not begining.
+# TODO: Create plots and save them in each epoch
+# TODO: Custome weight initializations  - See  https://discuss.pytorch.org/t/weight-initilzation/157/9
+# TODO: Time in training printout is based on epoch not total time since train_n_steps called
 
 
