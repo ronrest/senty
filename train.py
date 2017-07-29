@@ -296,13 +296,20 @@ evals = get_evals_dict(EVALS_FILE)
 steps_per_epoch = int(np.ceil(n_samples / hyper["BATCH_SIZE"]))
 n_steps = n_epochs * steps_per_epoch
 
-print("#" * 60)
-print(MODEL_NAME.upper())
-print("#" * 60)
-train_n_steps(model, data, evals,
-              n_steps=n_steps,
-              batch_size=hyper["BATCH_SIZE"],
-              print_every=int(steps_per_epoch / 5),
-              eval_every=steps_per_epoch)
+# TRAIN - and handle early termination through keyboard interrupt
+try:
+    print("#" * 60)
+    print(MODEL_NAME.upper())
+    print("#" * 60)
+    train_n_steps(model, data, evals,
+                  n_steps=n_steps,
+                  batch_size=hyper["BATCH_SIZE"],
+                  print_every=int(steps_per_epoch / 5),
+                  eval_every=steps_per_epoch)
+except KeyboardInterrupt:
+    print("\nEARLY TERMINATION INITIATED - saving evals and hypers")
+    obj2pickle(evals, EVALS_FILE)
+    save_hyper_params(hyper, HYPERPARAMS_FILE)
+    
 
 
