@@ -44,7 +44,6 @@ HYPERPARAMS_FILE = os.path.join(MODELS_DIR, "hyperparams.txt")
 #                                                                      LOAD_DATA
 # ==============================================================================
 def load_data(data_dir, classes=["neg", "pos"], valid_ratio= 0.3, seed=0):
-    # TODO: Create validation data from the test data
     ext = "txt"  # file extensions to look for
     data = {"xtrain": [],
             "ytrain": [],
