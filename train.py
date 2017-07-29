@@ -25,7 +25,7 @@ parser.add_argument("name", type=str, help="Model Name")
 parser.add_argument("-n", type=int, required=True, help="Num train steps")
 opt = parser.parse_args()
 MODEL_NAME = opt.name
-n_steps = opt.n
+n_epochs = opt.n
 
 
 # FILE AND DIR PATHS
@@ -271,6 +271,9 @@ else:
     print("CACHING DATA")
     obj2pickle(data, CACHED_DATA)
 
+n_samples = len(data["xtrain"])
+
+
 ################################################################################
 #                                                                          MODEL
 ################################################################################
@@ -287,11 +290,19 @@ load_latest_snapshot(model, SNAPSHOTS_DIR)
 ################################################################################
 #                                                                          TRAIN
 ################################################################################
-print("#"*60)
-print(MODEL_NAME.upper())
-print("#"*60)
 evals = get_evals_dict(EVALS_FILE)
-train_n_steps(model, data, evals, n_steps=n_steps, batch_size=hyper["BATCH_SIZE"], print_every=100, eval_every=1000)
 
+# Calculate important steps
+steps_per_epoch = int(np.ceil(n_samples / hyper["BATCH_SIZE"]))
+n_steps = n_epochs * steps_per_epoch
+
+print("#" * 60)
+print(MODEL_NAME.upper())
+print("#" * 60)
+train_n_steps(model, data, evals,
+              n_steps=n_steps,
+              batch_size=hyper["BATCH_SIZE"],
+              print_every=int(steps_per_epoch / 5),
+              eval_every=steps_per_epoch)
 
 
