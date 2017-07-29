@@ -252,7 +252,8 @@ def print_epoch_feedback(train_acc, valid_acc, loss):
 hyper = load_hyper_params(HYPERPARAMS_FILE)
 
 # LOAD VOCAB
-# TODO: make vocab files named "vocab_10000.txt" where the number is vocab size
+# TODO: make vocab files contain FULL vocab from imdb
+#       And make get_vocab() load only the first MAX_VOCAB words
 id2word, word2id = get_vocab(VOCAB_FILE, DATA_DIR, hyper["MAX_VOCAB"])
 n_words = len(id2word)
 
