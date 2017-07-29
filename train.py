@@ -144,6 +144,7 @@ def train_step(model, X, Y):
 def train_n_steps(model, data, evals, n_steps, batch_size=128, print_every=100, eval_every=1000):
     # TODO: Start epoch timer at last epoch time from evals (but take into
     # acount eval time)
+    # TODO: Do not use globals, feed paths dictionary or object.
     epoch_loss = 0
     snapshot_count = len(evals["loss"])
     start_step = evals["step"][-1] if snapshot_count > 0 else 0
