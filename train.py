@@ -14,7 +14,7 @@ from support import Timer, pretty_time
 from support import create_random_batch, batch_from_indices
 from support import load_snapshot, take_snapshot, epoch_snapshot, load_latest_snapshot
 from eval import evaluate_model, get_evals_dict, update_evals
-from support import load_hyper_params
+from support import load_hyper_params, save_hyper_params
 
 DATA_DIR = "aclImdb"
 from model import Model
@@ -199,6 +199,7 @@ def train_n_steps(model, data, evals, n_steps, batch_size=128, print_every=100, 
             epoch_snapshot(model, snapshot_count, accuracy=valid_acc,
                            name=MODEL_NAME, dir=SNAPSHOTS_DIR)
             obj2pickle(evals, EVALS_FILE)
+            save_hyper_params(hyper, HYPERPARAMS_FILE)
 
             # RESET
             epoch_loss = 0
