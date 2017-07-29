@@ -291,6 +291,7 @@ load_latest_snapshot(model, SNAPSHOTS_DIR)
 ################################################################################
 #                                                                          TRAIN
 ################################################################################
+# Load evaluations dictionary
 evals = get_evals_dict(EVALS_FILE)
 
 # Calculate important steps
