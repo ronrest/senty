@@ -24,7 +24,10 @@ class Model(nn.Module):
                             dropout=dropout
                             )
         
+        # FC classification layer with glorot initialization and bias of 0.01
         self.classifier = nn.Linear(h_size, 2)
+        init.xavier_normal(self.classifier.weight, gain=1)
+        init.constant(self.classifier.bias, 0.01)
         
         # SPECIFY LOSS AND OPTIMIZER FUNCTIONS
         self.loss_func = nn.CrossEntropyLoss()
