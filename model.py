@@ -5,7 +5,7 @@ from torch.autograd import Variable
 
 class Model(nn.Module):
     """ An LSTM Model for classification task"""
-    def __init__(self, n_vocab, embed_size, h_size, n_layers=1, dropout=0.5):
+    def __init__(self, n_vocab, embed_size, h_size, n_layers=1, dropout=0.5, l2=0):
         super(Model, self).__init__()
         
         self.n_vocab = n_vocab
@@ -28,7 +28,8 @@ class Model(nn.Module):
         
         # SPECIFY LOSS AND OPTIMIZER FUNCTIONS
         self.loss_func = nn.CrossEntropyLoss()
-        self.optimizer = torch.optim.Adam(self.parameters(), lr=self.alpha)
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=self.alpha,
+                                          weight_decay=l2)
     
     def forward(self, input, hidden):
         timesteps = input.size()[1]
