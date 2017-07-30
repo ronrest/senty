@@ -347,7 +347,8 @@ def load_hyper_params(file):
     d.setdefault("N_LAYERS", 1)
     d.setdefault("DROPOUT", 0.3)
     d.setdefault("ALPHA", 0.01)
-    
+    d.setdefault("L2", 0.0)
+
     # Convert to correct data types
     d["MAX_VOCAB"] = int(d["MAX_VOCAB"])
     d["SAMPLE_LENGTH"] = int(d["SAMPLE_LENGTH"])
@@ -357,7 +358,8 @@ def load_hyper_params(file):
     d["N_LAYERS"] = int(d["N_LAYERS"])
     d["DROPOUT"] = float(d["DROPOUT"])
     d["ALPHA"] = float(d["ALPHA"])
-    
+    d["L2"] = float(d["L2"])
+
     # Latest alpha
     d.setdefault("LAST_ALPHA", d["ALPHA"])
     d["LAST_ALPHA"] = float(d["LAST_ALPHA"])
@@ -390,7 +392,8 @@ def save_hyper_params(d, file):
              "N_LAYERS",
              "DROPOUT",
              "ALPHA",
-             "LAST_ALPHA"]
+             "LAST_ALPHA",
+             "L2"
+             ]
     dict2file(d, file, keys=order)
-
 

@@ -282,7 +282,8 @@ model = Model(n_vocab=n_words,
               embed_size=hyper["EMBED_SIZE"],
               h_size=hyper["N_HIDDEN"],
               n_layers=hyper["N_LAYERS"],
-              dropout=hyper["DROPOUT"])
+              dropout=hyper["DROPOUT"],
+              l2=hyper["L2"])
 model.update_learning_rate(hyper["LAST_ALPHA"])
 load_latest_snapshot(model, SNAPSHOTS_DIR)
 
