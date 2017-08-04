@@ -32,7 +32,9 @@ def maybe_make_pardir(file):
         on the system to ensure that the parent directory exists (if it does
         not already exist)
     """
-    maybe_mkdir(get_parent_directory(file))
+    pardir = get_parent_directory(file)
+    if pardir.strip() != "":
+        maybe_mkdir(pardir)
 
 
 # ==============================================================================
