@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-
+from torch.nn import init
 
 class Model(nn.Module):
     """ An LSTM Model for classification task"""
