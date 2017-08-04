@@ -58,6 +58,7 @@ def tokenization(s):
         returns a list of the separae token strings.
     """
     s = s.lower()
+    # TODO: replace tripple dots "..." or multiple dots, with "trippledot"
     s = s.replace(".", " . ")
     s = s.replace("\n", " ")
     s = s.replace("\r", " ")
