@@ -5,7 +5,7 @@ from torch.autograd import Variable
 
 class Model(nn.Module):
     """ An LSTM Model for classification task"""
-    def __init__(self, n_vocab, embed_size, h_size, n_layers=1, dropout=0.5, l2=0):
+    def __init__(self, n_vocab, embed_size, h_size, n_layers=1, dropout=0.5, l2=0, average_out=False):
         super(Model, self).__init__()
         
         self.n_vocab = n_vocab
@@ -15,6 +15,8 @@ class Model(nn.Module):
         self.alpha = 0.001  # learning rate
         self.batch_size = 1
         self.classes = 2
+        self.average_out = average_out  # use the average of the steps as input
+                                        # to the classifier.
         
         self.embeddings = nn.Embedding(n_vocab, embed_size)
         self.lstm = nn.LSTM(input_size=embed_size,
@@ -44,8 +46,11 @@ class Model(nn.Module):
         lstm_out, hidden = self.lstm(input, hidden)
 
         # Use the very final output for classification
-        lstm_out  = lstm_out[:, -1, :].view(self.batch_size, self.h_size)
-        output = self.classifier(lstm_out)
+        if self.average_out:
+            lstm_out = lstm_out.mean(dim=1).view(self.batch_size, self.h_size)
+        else:
+            lstm_out  = lstm_out[:, -1, :].view(self.batch_size, self.h_size)
+        
         
         return output, hidden
     
