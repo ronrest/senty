@@ -48,10 +48,13 @@ def vocab_tally_from_files(data_dir):
 # ==============================================================================
 #                                                                   CREATE_VOCAB
 # ==============================================================================
-def create_vocab(data_dir, n=10000):
+def create_vocab(data_dir, n=None):
     """ Given the directory of where the data is located, and a vocab size, n,
         It looks at all the words in the data, and trims it down to just the
         most frequent n tokens.
+        
+        If n is None (default) it returns all the words, in the order from most
+        common to least common.
         
         Returns a tuple:
             - id2word:  (list) that maps id values to tokens.
@@ -72,14 +75,16 @@ def create_vocab(data_dir, n=10000):
 # ==============================================================================
 #                                                                      GET_VOCAB
 # ==============================================================================
-def get_vocab(vocab_file, data_dir, max_vocab_size=10000):
+def get_vocab(vocab_file, data_dir, max_vocab_size=None):
     """ Gets the vocabulary.
         
         If `vocab_file` has already been created, then it loads the vocabulary
         from there, otherwise, it generates the vocabulary by looking at the
         raw data, and caches the vocabulary in `vocab_file`.
         
-        You can optionally set the max size of the vocabulary.
+        You can optionally set the max size of the vocabulary. By default
+        it is set to None, which means it uses every sinmgle token in the
+        data.
         
     Returns a tuple:
             - id2word:  (list) that maps id values to tokens.
