@@ -155,7 +155,7 @@ def process_line_for_batch(a, maxlen, padval=0):
     if len(a) > maxlen:
         a = a[:maxlen]
     elif len(a) < maxlen:
-        a = np.pad(a, (maxlen - len(a), 0), 'constant', constant_values=padval)
+        a = np.pad(a, (0, maxlen - len(a)), 'constant', constant_values=padval)
     return a
 
 
