@@ -40,60 +40,6 @@ HYPERPARAMS_FILE = os.path.join(MODELS_DIR, "hyperparams.txt")
 #                                                           SUPPORTING FUNCTIONS
 ################################################################################
 
-# ==============================================================================
-#                                                                      LOAD_DATA
-# ==============================================================================
-def load_data(data_dir, classes=["neg", "pos"], valid_ratio= 0.3, seed=0):
-    ext = "txt"  # file extensions to look for
-    data = {"xtrain": [],
-            "ytrain": [],
-            "xtest": [],
-            "ytest": [],
-            "xvalid": [],
-            "yvalid": []}
-    
-    # ITERATE THROUGH EACH OF THE DATASETS
-    datasets = ["train", "test"]
-    for dataset in datasets:
-        timer = Timer()
-        
-        # ITERATE THROUGH EACH CLASS LABEL
-        for class_id, sentiment in enumerate(classes):
-            print("Processing {} {} ({}) data".format(dataset, sentiment,
-                                                      class_id), end="")
-            timer.start()
-            
-            # MAKE LIST OF FILES - for current subdirectory
-            dir = os.path.join(DATA_DIR, dataset, sentiment)
-            files = glob.glob(os.path.join(dir, "*.{}".format(ext)))
-            
-            # ITERATE THROUGH EACH FILE
-            for file in files:
-                # Create input features and labels
-                text = file2str(file)
-                text = str2ids(text, word2id=word2id)
-                data["x"+dataset].append(text)
-                data["y"+dataset].append(class_id)
-            
-            print("-- DONE in {}".format(timer.elapsed_string()))
-        
-        # RANDOMIZE THE ORDER OF THE data
-        # TODO: Consider using a different method that does it in place
-        n = len(data["y"+dataset])
-        np.random.seed(seed=seed)
-        ids = np.random.permutation(n)
-        data["x" + dataset] = map(lambda id: data["x" + dataset][id], ids)
-        data["y" + dataset] = map(lambda id: data["y" + dataset][id], ids)
-        
-        # VALIDATION DATA - Split a portion of train data for validation
-        n_valid = int(len(data["ytrain"]) * valid_ratio)
-        data["xvalid"] = data["xtrain"][:n_valid]
-        data["yvalid"] = data["ytrain"][:n_valid]
-        data["xtrain"] = data["xtrain"][n_valid:]
-        data["ytrain"] = data["ytrain"][n_valid:]
-
-    return data
-
 
 # ==============================================================================
 #                                                                     TRAIN_STEP
@@ -261,17 +207,9 @@ n_words = len(id2word)
 id2class = ["neg", "pos"]
 class2id = {label:id for id, label in enumerate(id2class)}
 
-# LOAD DATA
-CACHED_DATA = os.path.join(DATA_DIR, "data_{}.pickle".format(hyper["MAX_VOCAB"]))
-if os.path.exists(CACHED_DATA):
-    print("LOADING CACHED DATA")
-    data = pickle2obj(CACHED_DATA)
-else:
-    print("PROCESSING RAW DATA")
-    data = load_data(data_dir=DATA_DIR, valid_ratio=0.3, seed=45)
-    print("CACHING DATA")
-    obj2pickle(data, CACHED_DATA)
 
+CACHED_DATA = "data.pickle"
+data = get_data(DATA_DIR, CACHED_DATA, vocab_file=VOCAB_FILE)
 n_samples = len(data["xtrain"])
 
 
