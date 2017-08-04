@@ -63,16 +63,20 @@ def create_vocab(data_dir, n=None):
             - word2id:  (dict) that maps token strings to integer ids
     """
     tally = vocab_tally_from_files(data_dir=data_dir)
+    
+    # Limit vocab size
     if n is not None:
         assert n > 2, "n must be greater than 2!"
         tally = tally.most_common(n-2)
     else:
         tally = tally.most_common()
+    
+    # Add padding and unknown tokens
     id2word = ["PAD", "UNKNOWN"]
     for word, _ in tally:
         id2word.append(word)
-    word2id = {word: id for id, word in enumerate(id2word)}
     
+    word2id = {word: id for id, word in enumerate(id2word)}
     return id2word, word2id
 
 
