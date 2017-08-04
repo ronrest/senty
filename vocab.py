@@ -4,6 +4,11 @@
 
 Functions to generate and load the vocabulary that will be used.
 
+
+PROBLEMATIC FILES - The following files are known to have encoding issues, and
+are skipped.
+    - "train/unsup/2759_0.txt"
+
 ################################################################################
 """
 from __future__ import print_function
