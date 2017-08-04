@@ -105,18 +105,18 @@ def get_vocab(vocab_file, data_dir, max_vocab_size=None):
             - word2id:  (dict) that maps token strings to integer ids
     """
     # GET VOCABULARY
-    if os.path.exists(vocab_file):
-        print("LOADING VOCAB FROM PRE-CACHED FILE")
-        id2word = file2list(vocab_file)
-        word2id = {word: id for id, word in enumerate(id2word)}
-    else:
+    if not os.path.exists(vocab_file):
         print("GENERATING VOCAB FROM RAW DATA")
-        id2word, word2id = create_vocab(data_dir, n=max_vocab_size)
-    
+        id2word, word2id = create_vocab(data_dir, n=None)
+        
         # Cache vocab to file
         print("Caching vocab to ", vocab_file)
         list2file(id2word, file=vocab_file)
     
+    print("LOADING VOCAB FROM PRE-CACHED FILE")
+    id2word = file2list(vocab_file)[:max_vocab_size]
+    word2id = {word: id for id, word in enumerate(id2word)}
+
     # n_vocab = len(id2word)
     return id2word, word2id
 
