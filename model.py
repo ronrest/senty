@@ -61,6 +61,10 @@ class Model(nn.Module):
         for param_group in self.optimizer.param_groups:
             param_group['lr'] = alpha
         self.alpha = alpha
+    
+    def set_embedding_weights(self, weights):
+        """ Given a numpy array of weights, it sets the embedding values """
+        self.embeddings.weight.data = torch.Tensor(weights)
 
 
 # # CODE TO RUN A FORWARD PASS
