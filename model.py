@@ -26,6 +26,8 @@ class Model(nn.Module):
                             dropout=dropout
                             )
         
+        self.lstm_out_dropout = nn.Dropout(p=dropout)
+
         # FC classification layer with glorot initialization and bias of 0.01
         self.classifier = nn.Linear(h_size, 2)
         init.xavier_normal(self.classifier.weight, gain=1)
@@ -51,6 +53,7 @@ class Model(nn.Module):
         else:
             lstm_out  = lstm_out[:, -1, :].view(self.batch_size, self.h_size)
         
+        output = self.classifier(self.lstm_out_dropout(lstm_out))
         
         return output, hidden
     
