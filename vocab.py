@@ -28,11 +28,11 @@ def vocab_tally_from_files(data_dir):
     tally = collections.Counter([])
     for dataset in datasets:
         timer = Timer()
-        for sentiment in ["neg", "pos"]:
+        for subdir in ["neg", "pos", "unsup"]:
             timer.start()
-            print("Processing {} {} data".format(dataset, sentiment), end="")
+            print("Processing {} {} data".format(dataset, subdir), end="")
             
-            dir = os.path.join(data_dir, dataset, sentiment)
+            dir = os.path.join(data_dir, dataset, subdir)
             files = glob.glob(os.path.join(dir, "*.{}".format(ext)))
             
             # ITERATE THROUGH EACH FILE IN THE SUBDIR - and update the tally
