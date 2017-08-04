@@ -201,7 +201,7 @@ def batch_from_indices(x, y=None, ids=[0], maxlen=100, padval=0):
     
     # EXTRACT ITEMS FROM DATA - clipping or padding lengths to maxlen
     for i, idx in enumerate(ids):
-        xbatch[i] = process_line_for_batch(x[idx], maxlen=maxlen, padval=padval)
+        xbatch[i] = process_line_for_batch(x[idx], maxlen=maxlen, padval=padval, use_start=False)
         if y:
             ybatch[i] = y[idx]
     
