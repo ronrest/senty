@@ -84,10 +84,13 @@ def pickle2obj(file):
 # ==============================================================================
 def file2str(file, encoding="UTF-8"):
     """Takes a file path and returns the contents of that file as a string."""
-    with open(file, "r", encoding=encoding) as textFile:
-        text = textFile.read()
-    return text
-
+    try:
+        with open(file, "r", encoding=encoding) as textFile:
+            text = textFile.read()
+        return text
+    except UnicodeDecodeError:
+        print("UnicodeIssue: Could not read ", file, )
+        return ""
 
 # ==============================================================================
 #                                                                       STR2FILE
