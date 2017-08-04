@@ -8,6 +8,8 @@ import numpy as np
 import argparse
 
 from vocab import get_vocab
+from data import get_data, limit_data_vocab
+
 from file_support import file2str, obj2pickle, pickle2obj
 from support import str2ids, idtensor2str, ids2str
 from support import Timer, pretty_time
@@ -19,6 +21,7 @@ from support import load_hyper_params, save_hyper_params
 DATA_DIR = "aclImdb"
 from model import Model
 
+CACHED_DATA = "data.pickle"
 # COMMAND LINE ARGUMENTS
 parser = argparse.ArgumentParser(description="Train a model")
 parser.add_argument("name", type=str, help="Model Name")
@@ -207,9 +210,9 @@ n_words = len(id2word)
 id2class = ["neg", "pos"]
 class2id = {label:id for id, label in enumerate(id2class)}
 
-
-CACHED_DATA = "data.pickle"
+# LOAD DATA
 data = get_data(DATA_DIR, CACHED_DATA, vocab_file=VOCAB_FILE)
+limit_data_vocab(data, n=hyper["MAX_VOCAB"], unknown_id=1)
 n_samples = len(data["xtrain"])
 
 
