@@ -59,6 +59,9 @@ def tokenization(s):
     """
     s = s.lower()
     s = s.replace(".", " . ")
+    s = s.replace("\n", " ")
+    s = s.replace("\r", " ")
+    s = s.replace("\t", " ")
     s = s.replace(",", " , ")
     s = s.replace("\"", " \" ")
     s = s.replace("'", " ' ")
