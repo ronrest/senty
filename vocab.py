@@ -105,6 +105,7 @@ def get_vocab(vocab_file, data_dir, max_vocab_size=None):
         id2word, word2id = create_vocab(data_dir, n=max_vocab_size)
     
         # Cache vocab to file
+        print("Caching vocab to ", vocab_file)
         list2file(id2word, file=vocab_file)
     
     # n_vocab = len(id2word)
