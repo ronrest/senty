@@ -139,13 +139,16 @@ def ids2str(a, id2word):
 # ==============================================================================
 #                                                         PROCESS_LINE_FOR_BATCH
 # ==============================================================================
-def process_line_for_batch(a, maxlen, padval=0):
+def process_line_for_batch(a, maxlen, padval=0, use_start=True):
     """ Given a list of items, it returns a version of that list
         with the length limited to  `maxlen`.  Lists  with  more
         elements than  `maxlen`  will  be trimmed, and any lists
         shorter than this will be padded with  `padval`  at  the
         start.
         
+        use_start: (bool) Set this to False if you would prefer to
+                    use the last maxlen tokens instead of the first
+                    maxlen tokens.
     NOTE:
         Currently, the trimming that is performed, is that it takes
         the first `maxlen` items in the list.
@@ -153,7 +156,10 @@ def process_line_for_batch(a, maxlen, padval=0):
     # TODO: Select a random subsection instead of just fist maxlen items
     
     if len(a) > maxlen:
-        a = a[:maxlen]
+        if use_start:
+            a = a[:maxlen]
+        else:
+            a = a[-maxlen:]
     elif len(a) < maxlen:
         a = np.pad(a, (0, maxlen - len(a)), 'constant', constant_values=padval)
     return a
