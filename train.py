@@ -87,7 +87,7 @@ def train_step(model, X, Y):
 # ==============================================================================
 #                                                                  TRAIN_N_STEPS
 # ==============================================================================
-def train_n_steps(model, data, evals, n_steps, batch_size=128, print_every=100, eval_every=1000):
+def train_n_steps(model, data, hyper, evals, n_steps, batch_size=128, print_every=100, eval_every=1000):
     # TODO: Start epoch timer at last epoch time from evals (but take into
     # acount eval time)
     # TODO: Do not use globals, feed paths dictionary or object.
@@ -103,7 +103,7 @@ def train_n_steps(model, data, evals, n_steps, batch_size=128, print_every=100, 
     for step in range(1, n_steps + 1):
         step_timer.start()
         X, Y = create_random_batch(data["xtrain"], data["ytrain"],
-                                   batchsize=batch_size)
+                                   batchsize=batch_size, maxlen=hyper["SAMPLE_LENGTH"])
         loss = train_step(model, X, Y)
         epoch_loss += loss
         
