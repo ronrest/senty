@@ -119,3 +119,9 @@ def get_data(data_dir, cached_data, vocab_file):
     return data
 
 
+def limit_data_vocab(data, n=50000, unknown_id=1):
+    input_keys = [key for key in data.keys() if "x" in key]
+    for key in input_keys:
+        dataset = data[key]
+        for i, sample in enumerate(dataset):
+            dataset[i] = map(lambda val: val if val < n else unknown_id, sample)
