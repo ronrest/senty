@@ -25,9 +25,13 @@ class ReviewsGenerator(object):
                         yield tokenization(line)
 
 
+# ==============================================================================
+#                                                          INITIALIZE_EMBEDDINGS
+# ==============================================================================
 def initialize_embeddings(n_words, embed_size):
-    # INITIALIZE EMBEDDINGS TO RANDOM VALUES
-    # TODO: Maybe play around with differeent initialization strategies
+    """ Creates a numpy array n_words x embed_size to be used for word
+        embeddings initialized using a basic variant of Xavier
+        initialization"""
     init_sd = 1 / np.sqrt(embed_size)
     weights = np.random.normal(0, scale=init_sd, size=[n_words, embed_size])
     weights = weights.astype(np.float32)
