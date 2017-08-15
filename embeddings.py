@@ -29,7 +29,7 @@ class ReviewsGenerator(object):
 #                                                          INITIALIZE_EMBEDDINGS
 # ==============================================================================
 def initialize_embeddings(n_words, embed_size):
-    """ Creates a numpy array n_words x embed_size to be used for word
+    """ Creates a numpy array n_words*embed_size to be used for word
         embeddings initialized using a basic variant of Xavier
         initialization"""
     # TODO: Maybe play around with different initialization strategies
