@@ -1,3 +1,6 @@
+import os
+from io import open
+from support import tokenization
 import numpy as np
 class ReviewsGenerator(object):
     def __init__(self, rootdir):
