@@ -40,7 +40,24 @@ def initialize_embeddings(n_words, embed_size):
     return weights
 
 
+# ==============================================================================
+#                                                       EXTRACT_GLOVE_EMBEDDINGS
+# ==============================================================================
 def extract_glove_embeddings(file, n_words, embed_size, word2id):
+    """ Given a text file that contains pretrained glove embeddings
+        it returns a numpy array where each row is a word vector,
+        and row ids exactly match the word order from our vocab.
+
+    Args:
+        file:       (str) path to the embeddings text file
+        n_words:    (int) Number of words to use for vocab
+        embed_size: (int) Word vector size
+        word2id:    (dict) dict that maps from words to indices
+
+    Returns: (numpy array)
+        A numpy array of shape n_words * embed_size of the word embeddings
+        whose row order is based on the index mappings in `word2id`.
+    """
     weights = initialize_embeddings(n_words, embed_size)
     
     # EXTRACT DESIRED GLOVE WORD VECTORS FROM TEXT FILE
