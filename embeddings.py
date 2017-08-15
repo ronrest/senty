@@ -2,7 +2,16 @@ import os
 from io import open
 from support import tokenization
 import numpy as np
+
+
+# ==============================================================================
+#                                                              REVIEWS GENERATOR
+# ==============================================================================
 class ReviewsGenerator(object):
+    """ A python generator that iterates through every review in the imdb
+        dataset, one review at a time from the 'train' subdirectory. This is
+        designed to be used to train the word vectors.
+    """
     def __init__(self, rootdir):
         self.rootdir = rootdir
 
