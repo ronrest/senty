@@ -41,6 +41,28 @@ def initialize_embeddings(n_words, embed_size):
 
 
 # ==============================================================================
+def create_word2vec_vectors(datadir, embed_size=50):
+    import gensim
+    import logging
+    logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+    
+    # train embeddings
+    reviews = ReviewsGenerator(datadir) # a memory-friendly iterator
+    model = gensim.models.Word2Vec(reviews,
+                                   iter=5,
+                                   min_count=2,
+                                   workers=8,
+                                   size=embed_size)
+
+    # Return the word vectors as a dictionary of numpy arrays
+    word_vectors = {}
+    for word in model.wv.index2word:
+        word_vectors[word] = model.wv[word]
+
+    return word_vectors
+
+
+# ==============================================================================
 #                                                       EXTRACT_GLOVE_EMBEDDINGS
 # ==============================================================================
 def extract_glove_embeddings(file, n_words, embed_size, word2id):
