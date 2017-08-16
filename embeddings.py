@@ -41,7 +41,13 @@ def initialize_embeddings(n_words, embed_size):
 
 
 # ==============================================================================
+#                                                        CREATE_WORD2VEC_VECTORS
+# ==============================================================================
 def create_word2vec_vectors(datadir, embed_size=50):
+    """ Given the directory where the data is located, it trains the word
+        vectors and returns them as a dictionary of numpy arrays, where the
+        keys are the word vectors.
+    """
     import gensim
     import logging
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
