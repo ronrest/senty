@@ -225,7 +225,7 @@ def batch_from_indices(x, y=None, ids=[0], maxlen=100, padval=0, pad1=False):
     # Handle batches of 1
     if (batchsize == 1) and not pad1:
         padval = None
-        batch_dims = (batchsize, len(x[ids[0]]))
+        batch_dims = (batchsize, min(maxlen, len(x[ids[0]])))
     else:
         batch_dims = (batchsize, maxlen)
     
