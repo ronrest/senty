@@ -141,14 +141,26 @@ def ids2str(a, id2word):
 # ==============================================================================
 def process_line_for_batch(a, maxlen, padval=0, use_start=True):
     """ Given a list of items, it returns a version of that list
-        with the length limited to  `maxlen`.  Lists  with  more
-        elements than  `maxlen`  will  be trimmed, and any lists
-        shorter than this will be padded with  `padval`  at  the
-        start.
+        with the length limited to  `maxlen`.
         
-        use_start: (bool) Set this to False if you would prefer to
-                    use the last maxlen tokens instead of the first
-                    maxlen tokens.
+        Lists  with  more elements than  `maxlen`  will  be trimmed.
+        Shorter lists will either be:
+        
+        - Kept their original length (if `padval=None`)
+        - Will be turned into `maxlen` in length with `padval` values added
+          as padding.
+        
+    Args:
+        a:          (list)
+        maxlen:     (int)
+        padval:     (None or Object)
+                    Set to `None` if you do not want to pad short lists to
+                    be `maxlen` in length.
+                    Set to any other value to make the list `maxlen` in length
+                    and use padval as padding.
+        use_start: (bool)
+                    Set this to False if you would prefer to use the last
+                    maxlen tokens instead of the first maxlen tokens.
     NOTE:
         Currently, the trimming that is performed, is that it takes
         the first `maxlen` items in the list.
