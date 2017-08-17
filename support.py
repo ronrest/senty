@@ -165,6 +165,7 @@ def process_line_for_batch(a, maxlen, padval=0, use_start=True):
         Currently, the trimming that is performed, is that it takes
         the first `maxlen` items in the list.
     """
+    # TODO: Add option to chose which side to add padding to.
     # TODO: Select a random subsection instead of just fist maxlen items
     
     # Deal with long inputs
