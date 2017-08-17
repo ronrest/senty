@@ -188,7 +188,7 @@ def process_line_for_batch(a, maxlen, padval=0, use_start=True):
 # ==============================================================================
 #                                                             BATCH_FROM_INDICES
 # ==============================================================================
-def batch_from_indices(x, y=None, ids=[0], maxlen=100, padval=0):
+def batch_from_indices(x, y=None, ids=[0], maxlen=100, padval=0, pad1=False):
     """ Given the input sequences x (and optionally output labels y),
         and a list of indices to use for the batch, it  extracts  the
         sequences  at  those  indices,  keeping  each  sequence  to a
@@ -208,14 +208,29 @@ def batch_from_indices(x, y=None, ids=[0], maxlen=100, padval=0):
                     and pad anything shorter.
         padval:     (int)(default=0)
                     Value to use for padding.
+        pad1:       (bool) (default=False)
+                    Should arrays be padded to be `maxlen` in size if
+                    we only have a batch of size 1?
+                    By default (False), if we only have batches of 1, then
+                    arrays will be trimmed to a maximum length of `maxlen`,
+                    but shorter arrays will remain their original length
+                    without any padding.
 
     Returns:
         If `y` is None, then it just returns xbatch, otherwise it
         returns a tuple (xbatch, ybatch)
     """
-    # INITIALIZE EMPTY BATCH OF ARRAYS
     batchsize = len(ids)
-    xbatch = np.empty((batchsize, maxlen), dtype=np.int64)
+
+    # Handle batches of 1
+    if (batchsize == 1) and not pad1:
+        padval = None
+        batch_dims = (batchsize, len(x[ids[0]]))
+    else:
+        batch_dims = (batchsize, maxlen)
+    
+    # INITIALIZE EMPTY BATCH OF ARRAYS
+    xbatch = np.empty(batch_dims, dtype=np.int64)
     if y:
         ybatch = np.empty(batchsize, dtype=np.int64)
     
@@ -239,7 +254,7 @@ def batch_from_indices(x, y=None, ids=[0], maxlen=100, padval=0):
 # ==============================================================================
 #                                                            CREATE_RANDOM_BATCH
 # ==============================================================================
-def create_random_batch(x, y=None, batchsize=32, maxlen=100, padval=0):
+def create_random_batch(x, y=None, batchsize=32, maxlen=100, padval=0, pad1=False):
     """ Given the input sequences x (and optionally output labels y),
         it  randomly samples a `batchsize` sized batch, keeping each
         sequence  to  a  maximum  length  of `maxlen`. Any sequences
@@ -258,13 +273,20 @@ def create_random_batch(x, y=None, batchsize=32, maxlen=100, padval=0):
                     and pad anything shorter.
         padval:     (int)(default=0)
                     Value to use for padding.
+        pad1:       (bool) (default=False)
+                    Should arrays be padded to be `maxlen` in size if
+                    we only have a batch of size 1?
+                    By default (False), if we only have batches of 1, then
+                    arrays will be trimmed to a maximum length of `maxlen`,
+                    but shorter arrays will remain their original length
+                    without any padding.
 
     Returns:
         If `y` is None, then it just returns xbatch, otherwise it
         returns a tuple (xbatch, ybatch)
     """
     ids = np.random.randint(0, len(x), size=batchsize, dtype=np.int64)
-    return batch_from_indices(x, y, ids=ids, maxlen=maxlen, padval=padval)
+    return batch_from_indices(x, y, ids=ids, maxlen=maxlen, padval=padval, pad1=pad1)
     
 
 # ==============================================================================
