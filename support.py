@@ -155,13 +155,20 @@ def process_line_for_batch(a, maxlen, padval=0, use_start=True):
     """
     # TODO: Select a random subsection instead of just fist maxlen items
     
+    # Deal with long inputs
     if len(a) > maxlen:
         if use_start:
             a = a[:maxlen]
         else:
             a = a[-maxlen:]
+
+    # Deal with short inputs
     elif len(a) < maxlen:
-        a = np.pad(a, (0, maxlen - len(a)), 'constant', constant_values=padval)
+        if padval is None:
+            a = np.array(a) # No padding
+        else:
+            a = np.pad(a, (0, maxlen - len(a)), 'constant', constant_values=padval)
+        
     return a
 
 
