@@ -1,6 +1,7 @@
 import os
 from io import open
 from support import tokenization
+from file_support import obj2pickle, pickle2obj
 import numpy as np
 
 
@@ -101,5 +102,25 @@ def extract_glove_embeddings(file, n_words, embed_size, word2id):
                 weights[id] = vector
     return weights
 
+
+def extract_word2vec_embeddings(file, n_words, embed_size, id2word, datadir=None):
+    if not os.path.isfile(file):
+        print("Training word2vec embeddings from scratch")
+        embeddings = create_word2vec_vectors(datadir, embed_size=embed_size)
+        print("Caching word2vec embeddings")
+        obj2pickle(embeddings, file)
+    else:
+        print("Loading cached word2vec embedings")
+        embeddings = pickle2obj(file)
+    
+    # Reorder the embeddings
+    weights = initialize_embeddings(n_words, embed_size)
+    for id, word in enumerate(id2word):
+        vector = embeddings.get(word, None)
+        if vector is not None:
+            weights[id] = vector
+
+    return weights
+    
 
 
