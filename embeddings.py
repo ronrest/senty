@@ -103,7 +103,17 @@ def extract_glove_embeddings(file, n_words, embed_size, word2id):
     return weights
 
 
+# ==============================================================================
+#                                                    EXTRACT_WORD2VEC_EMBEDDINGS
+# ==============================================================================
 def extract_word2vec_embeddings(file, n_words, embed_size, id2word, datadir=None):
+    """ Tries to load pretrained word2vec weights from a file. If it does
+        not exist, then it trains from scratch and caches the trained
+        embeddings to that file.
+
+        Returns a numpy array of the trained embeddings according to the
+        word order from `id2word`
+    """
     if not os.path.isfile(file):
         print("Training word2vec embeddings from scratch")
         embeddings = create_word2vec_vectors(datadir, embed_size=embed_size)
